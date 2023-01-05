@@ -1,0 +1,20 @@
+.tableContent{
+    padding-left: 1%;
+    padding-top: 1%;
+    padding-right: 1%;
+    padding-bottom: 1px;
+    width: 75vw;
+    background: white;
+    border-radius: 20px;
+}
+
+.pagination{
+    justify-content: center;
+}
+.icon{
+    cursor: pointer;
+}
+
+.employeeImg{
+    border-radius: 50px;
+}

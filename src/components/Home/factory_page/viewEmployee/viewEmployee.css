@@ -1,0 +1,98 @@
+.employeeCard {
+  border-radius: 15px;
+  margin-top: 4%;
+  height: 70vh;
+  width: 65vw;
+  background: #3d3d3d;
+  color: rgb(224, 217, 217);
+}
+
+.employeeImgCard {
+  background: white;
+  display: inline-block;
+  height: 70vh;
+  width: 20vw;
+  border-radius: 10px 50px 50px 10px;
+}
+
+.cardline {
+  display: flex;
+  transform: rotateZ(90deg);
+  width: 20vw;
+  height: 1vh;
+}
+
+.employeeDetailsCard {
+  margin-top: 2%;
+  position: absolute;
+  display: inline-block;
+  width: 45vw;
+  height: 62vh;
+}
+
+.borderradius {
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardid {
+  color: #3d3d3d;
+  height: 20vh;
+  font-size: 250%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fromTable {
+  font-size: 130%;
+}
+
+.rightSide {
+  float: right;
+  height: 55vh;
+  width: 20vw;
+  overflow: auto;
+}
+
+.leftSide {
+  float: left;
+  height: 55vh;
+  width: 20vw;
+  overflow: auto;
+}
+
+.leftSide::-webkit-scrollbar {
+  display: none;
+}
+
+.rightSide::-webkit-scrollbar {
+  display: none;
+}
+
+.closeBtn {
+  padding: 0px 5% 2% 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cardTxt {
+  padding-left: 5%;
+  padding-bottom: 2%;
+  opacity: 0.6;
+}
+
+.cardTxt:hover {
+  opacity: 1;
+}
+
+.lb {
+  color: white;
+  font-weight: bold;
+}
+
+.employeeImgC {
+  width: 100%;
+}

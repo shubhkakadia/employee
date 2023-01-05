@@ -1,0 +1,27 @@
+.sideBar{
+    position: absolute;
+    top: 2%;
+    border-radius: 0 30px 30px 0;
+    height: 95vh;
+    width: 18vw;
+    background: #2F3C7E;
+    /* #000080, */
+}
+
+.line{
+    width: 15vw;
+    margin-left: 7%;
+    margin-top: 10%;
+    margin-bottom: 5%;
+    opacity: 0.4;
+}
+
+.dropdown{
+    z-index: 99;
+}
+
+.addFactoryBtn{
+    padding-top: 15%;
+    display: flex;
+    justify-content: center;
+}

@@ -1,0 +1,19 @@
+.factoryImg {
+  border-radius: 50px;
+}
+
+.iconName {
+  color: white;
+  display: inline-block;
+  margin-left: 5%;
+  margin-top: 10%;
+}
+
+.link {
+  width: 18vw;
+}
+
+.nm {
+  font-size: 125%;
+  align-items: center !important;
+}
