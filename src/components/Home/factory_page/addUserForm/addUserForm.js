@@ -12,7 +12,7 @@ export default function AddUserForm(props) {
   const [villageAddress, setVillageAddress] = useState("");
   const [reference, setReference] = useState("");
   const [joinDate, setJoinDate] = useState("");
-  const [stillWorking, setStillWorking] = useState("");
+  const [stillWorking, setStillWorking] = useState("No");
   const [leaveDate, setLeaveDate] = useState("");
   const [photo, setPhoto] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
@@ -81,39 +81,42 @@ export default function AddUserForm(props) {
 
   function employeeData(e) {
     e.preventDefault();
-    const newData = {
-      ID: id,
-      Factory: factory,
-      FirstName: firstName,
-      LastName: lastName,
-      DoB: dob,
-      Village: village,
-      Address: address,
-      VillageAddress: villageAddress,
-      Reference: reference,
-      JoinDate: joinDate,
-      StillWorking: stillWorking,
-      LeaveDate: leaveDate,
-      Photo: photo,
-      PhoneNo: phoneNo,
-      AdhaarNo: adhaarNo,
-      BankName: bankName,
-      IFSC: IFSC,
-      AccountNo: accountNo,
-      Note: note,
-    };
+    if (validate()) {
+      const newData = {
+        ID: id,
+        Factory: factory,
+        FirstName: firstName,
+        LastName: lastName,
+        DoB: dob,
+        Village: village,
+        Address: address,
+        VillageAddress: villageAddress,
+        Reference: reference,
+        JoinDate: joinDate,
+        StillWorking: stillWorking,
+        LeaveDate: leaveDate,
+        Photo: photo,
+        PhoneNo: phoneNo,
+        AdhaarNo: adhaarNo,
+        BankName: bankName,
+        IFSC: IFSC,
+        AccountNo: accountNo,
+        Note: note,
+      };
 
-    if (props.props.edit !== "") {
-      let newArr = props.props.employeeData;
-      var employeeIndex = newArr.indexOf(editEmployee);
-      newArr[employeeIndex] = newData;
-      storeEmployee(newArr);
-    } else {
-      storeEmployee([...props.props.employeeData, newData]);
+      if (props.props.edit !== "") {
+        let newArr = props.props.employeeData;
+        var employeeIndex = newArr.indexOf(editEmployee);
+        newArr[employeeIndex] = newData;
+        storeEmployee(newArr);
+      } else {
+        storeEmployee([...props.props.employeeData, newData]);
+      }
+      getEmployees();
+      clearData();
+      generateID();
+      props.onClose();
     }
-    getEmployees();
-    clearData();
-    generateID();
   }
 
   function storeEmployee(value) {
@@ -153,6 +156,89 @@ export default function AddUserForm(props) {
     }
   }
 
+  function validate() {
+    var errorCounter = 0;
+    if (firstName === "") {
+      document.getElementById("firstName").classList.add("is-invalid");
+      errorCounter += 1;
+    }
+    else{
+      document.getElementById("firstName").classList.remove("is-invalid");
+    }
+
+    if (phoneNo === "") {
+      document.getElementById("phoneNo").classList.add("is-invalid");
+      errorCounter += 1;
+    }
+    else{
+      document.getElementById("phoneNo").classList.remove("is-invalid");
+    }
+
+    if (dob === "") {
+      document.getElementById("DoB").classList.add("is-invalid");
+      errorCounter += 1;
+    }
+    else{
+      document.getElementById("DoB").classList.remove("is-invalid");
+    }
+
+    if (adhaarNo === "") {
+      document.getElementById("AdhaarNo").classList.add("is-invalid");
+      errorCounter += 1;
+    }
+    else{
+      document.getElementById("AdhaarNo").classList.remove("is-invalid");
+    }
+
+    if (address === "") {
+      document.getElementById("Address").classList.add("is-invalid");
+      errorCounter += 1;
+    }
+    else{
+      document.getElementById("Address").classList.remove("is-invalid");
+    }
+
+    if (village === "") {
+      document.getElementById("Village").classList.add("is-invalid");
+      errorCounter += 1;
+    }
+    else{
+      document.getElementById("Village").classList.remove("is-invalid");
+    }
+
+    if (villageAddress === "") {
+      document.getElementById("VillageAddress").classList.add("is-invalid");
+      errorCounter += 1;
+    }
+    else{
+      document.getElementById("VillageAddress").classList.remove("is-invalid");
+    }
+
+    if (joinDate === "") {
+      document.getElementById("joinDate").classList.add("is-invalid");
+      errorCounter += 1;
+    }
+    else{
+      document.getElementById("joinDate").classList.remove("is-invalid");
+    }
+
+    console.log(stillWorking, leaveDate)
+    if (stillWorking==="No" && leaveDate === ""){
+      document.getElementById("leaveDate").classList.add("is-invalid");
+      errorCounter += 1;
+    }
+    else{
+      document.getElementById("leaveDate").classList.remove("is-invalid");
+    }
+
+    console.log(errorCounter);
+    if (errorCounter > 0) {
+      return false;
+    }
+
+    return true;
+  }
+
   return (
     <div>
       <div id="employeeForm">
@@ -182,10 +268,17 @@ export default function AddUserForm(props) {
             <div className="inline">
               <div className="form-floating">
                 <input
+                  id="firstName"
                   className="form-control"
                   placeholder="temp"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
+                  onKeyPress={(event) => {
+                    if (!/^[a-zA-Z ]+$/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
+                  maxLength={20}
                 />
                 <label>First Name</label>
               </div>
@@ -198,6 +291,12 @@ export default function AddUserForm(props) {
                   placeholder="temp"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
+                  maxLength={20}
+                  onKeyPress={(event) => {
+                    if (!/^[a-zA-Z ]+$/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
                 <label>Last Name</label>
               </div>
@@ -206,10 +305,18 @@ export default function AddUserForm(props) {
             <div className="inline">
               <div className="form-floating">
                 <input
+                  id="phoneNo"
                   className="form-control"
                   placeholder="temp"
                   value={phoneNo}
                   onChange={(e) => setPhoneNo(e.target.value)}
+                  maxLength={10}
+                  minLength={10}
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
                 <label>Phone No.</label>
               </div>
@@ -220,6 +327,7 @@ export default function AddUserForm(props) {
             <div className="inline">
               <div className="form-floating">
                 <input
+                  id="DoB"
                   type="date"
                   className="form-control"
                   placeholder="temp"
@@ -233,11 +341,19 @@ export default function AddUserForm(props) {
             <div className="inline">
               <div className="form-floating">
                 <input
+                  id="AdhaarNo"
                   size={35}
                   className="form-control"
                   placeholder="temp"
                   value={adhaarNo}
                   onChange={(e) => setAdhaarNo(e.target.value)}
+                  maxLength={16}
+                  minLength={16}
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
                 <label>Adhaar No.</label>
               </div>
@@ -250,6 +366,11 @@ export default function AddUserForm(props) {
                   placeholder="temp"
                   value={reference}
                   onChange={(e) => setReference(e.target.value)}
+                  onKeyPress={(event) => {
+                    if (!/^[a-zA-Z ]+$/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
                 <label>Reference</label>
               </div>
@@ -260,11 +381,18 @@ export default function AddUserForm(props) {
             <div className="inline">
               <div className="form-floating">
                 <input
+                  id="Address"
                   size={40}
                   className="form-control"
                   placeholder="temp"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
+                  maxLength={64}
+                  onKeyPress={(event) => {
+                    if (!/^[a-zA-Z ]+$/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
                 <label>Address</label>
               </div>
@@ -273,10 +401,17 @@ export default function AddUserForm(props) {
             <div className="inline">
               <div className="form-floating">
                 <input
+                  id="Village"
                   className="form-control"
                   placeholder="temp"
                   value={village}
                   onChange={(e) => setVillage(e.target.value)}
+                  maxLength={20}
+                  onKeyPress={(event) => {
+                    if (!/^[a-zA-Z ]+$/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
                 <label>Village</label>
               </div>
@@ -285,11 +420,18 @@ export default function AddUserForm(props) {
             <div className="inline">
               <div className="form-floating">
                 <input
+                  id="VillageAddress"
                   size={40}
                   className="form-control"
                   placeholder="temp"
                   value={villageAddress}
                   onChange={(e) => setVillageAddress(e.target.value)}
+                  maxLength={64}
+                  onKeyPress={(event) => {
+                    if (!/^[a-zA-Z ]+$/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
                 <label>Village Address</label>
               </div>
@@ -300,6 +442,7 @@ export default function AddUserForm(props) {
             <div className="dates">
               <div className="form-floating">
                 <input
+                  id="joinDate"
                   type="date"
                   className="form-control"
                   placeholder="temp"
@@ -359,6 +502,12 @@ export default function AddUserForm(props) {
                   placeholder="temp"
                   value={bankName}
                   onChange={(e) => setBankName(e.target.value)}
+                  maxLength={20}
+                  onKeyPress={(event) => {
+                    if (!/^[a-zA-Z ]+$/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
                 <label>Bank Name</label>
               </div>
@@ -372,6 +521,12 @@ export default function AddUserForm(props) {
                   placeholder="temp"
                   value={IFSC}
                   onChange={(e) => setIFSC(e.target.value)}
+                  maxLength={11}
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
                 <label>IFSC Code</label>
               </div>
@@ -385,6 +540,11 @@ export default function AddUserForm(props) {
                   placeholder="temp"
                   value={accountNo}
                   onChange={(e) => setAccountNo(e.target.value)}
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
                 <label>Account No.</label>
               </div>
@@ -398,6 +558,11 @@ export default function AddUserForm(props) {
                   placeholder="temp"
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
+                  onKeyPress={(event) => {
+                    if (!/^[a-zA-Z ]+$/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
                 <label>Note</label>
               </div>
