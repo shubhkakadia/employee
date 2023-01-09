@@ -1,10 +1,11 @@
 .sideBar{
     position: absolute;
     top: 2%;
-    border-radius: 0 30px 30px 0;
+    border-radius: 0 20px 20px 0;
     height: 95vh;
     width: 18vw;
-    background: #2F3C7E;
+    background: black;
+    opacity: 0.8;
     /* #000080, */
 }
 
