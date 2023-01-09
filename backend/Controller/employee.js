@@ -2,6 +2,7 @@ const Emp = require("../Model/employee");
 
 const create = (req, res) => {
   let ID = req.body.ID;
+  let Factory = req.body.Factory;
   let FirstName = req.body.FirstName;
   let LastName = req.body.LastName;
   let PhoneNo = req.body.PhoneNo;
@@ -21,6 +22,7 @@ const create = (req, res) => {
   let Note = req.body.Note;
   let emp = new Emp({
     ID,
+    Factory,
     FirstName,
     LastName,
     PhoneNo,
@@ -162,10 +164,30 @@ const update = (req, res) => {
     });
 };
 
+const filterEmployee = (req, res) => {
+  Emp.find().where({ Factory: req.body.Factory })
+    .then((data) => {
+      console.log("Success: ");
+      const response = {
+        status: "Success",
+        response: data,
+      };
+      res.send(response);
+    })
+    .catch((err) => {
+      const response = {
+        status: "Error",
+        response: err,
+      };
+      res.send(response);
+    });
+}
+
 module.exports = {
   create,
   read,
   readID,
   deleteEmp,
   update,
+  filterEmployee
 };

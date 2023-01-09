@@ -5,6 +5,10 @@ const employeeSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  Factory: {
+    type: String,
+    required: true,
+  },
   FirstName: {
     type: String,
     required: true,

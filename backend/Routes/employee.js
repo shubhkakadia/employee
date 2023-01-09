@@ -6,6 +6,7 @@ const {
   readID,
   deleteEmp,
   update,
+  filterEmployee
 } = require("../Controller/employee");
 
 const bodyparser = require("body-parser");
@@ -15,4 +16,5 @@ router.get("/get", read);
 router.get("/get/:id", readID);
 router.post("/delete/:id", deleteEmp);
 router.put("/update", update);
+router.get("/getbyfactory", filterEmployee)
 module.exports = router;
