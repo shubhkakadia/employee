@@ -1,0 +1,25 @@
+.left {
+  width: 20vw;
+}
+
+.right {
+  width: 80vw;
+}
+
+.content1{
+    display: flex;
+    justify-content: center;
+    padding-top: 2%;
+    padding-bottom: 1%;
+}
+
+#factoryForm {
+  padding-top: 1%;
+  position: absolute;
+  margin-left: 15%;
+  margin-top: 10%;
+  height: 65vh;
+  width: 45vw;
+  border-radius: 15px;
+  background-color: rgba(225, 225, 225, 0.5);
+}

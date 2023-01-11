@@ -6,8 +6,11 @@ import AddUserForm from "./addUserForm/addUserForm";
 import "./factoryPage.css";
 import Table from "./table/table";
 import Loading from "../../landingPage/loading";
-import { fetchEmployeesAll } from "../../state/actions/employeeListAll";
 import AddFactoryForm from "./addFactoryForm/addFactoryForm";
+import { deleteEmployee } from "../../state/actions/deleteEmployee";
+import RemoveItem from "./removeItem/removeItem";
+import { deleteFactory } from "../../state/actions/deleteFactory";
+import { useNavigate } from "react-router-dom";
 
 export default function FactoryPage() {
   const selected_factory = useSelector(
@@ -19,16 +22,23 @@ export default function FactoryPage() {
   const dispatch = useDispatch();
   const [formDialog, setFormDialog] = useState(false);
   const [addEmployeeBtn, setAddEmployeeBtn] = useState(true);
+  const [removeFactoryBtn, setRemoveFactoryBtn] = useState(true);
   const [employeeArr, setEmployeeArr] = useState([]);
+  const [removeItemToggle, setRemoveItemToggle] = useState(false);
   const [parems, setParems] = useState({
     factory: selected_factory.Name,
     edit: "",
     employeeData: employeeAllArray,
   });
   const [addFactoryToggle, setAddFactoryToggle] = useState(false);
+  const removeItemProps = {
+    message: `Are you sure you want to remove ${selected_factory.Name} factory? This will delete all employees aswell.`,
+  };
+  const navigate = useNavigate()
 
   useEffect(() => {
-    dispatch(fetchEmployees(employeeAllArray, selected_factory.Name));
+    console.log(employeeAllArray);
+    dispatch(fetchEmployees(selected_factory.Name));
     setParems({
       factory: selected_factory.Name,
       edit: "",
@@ -46,6 +56,16 @@ export default function FactoryPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formDialog]);
 
+  useEffect(() => {
+    if (removeItemToggle) {
+      setAddEmployeeBtn(false);
+      setRemoveFactoryBtn(false);
+    } else {
+      setAddEmployeeBtn(true);
+      setRemoveFactoryBtn(true);
+    }
+  }, [removeItemToggle]);
+
   function addFactory() {
     console.log("add");
     setAddFactoryToggle(true);
@@ -58,7 +78,7 @@ export default function FactoryPage() {
       setAddEmployeeBtn(false);
     }
   }
-  
+
   function editEmployee(item) {
     setFormDialog(true);
     setParems({ ...parems, edit: item });
@@ -71,11 +91,13 @@ export default function FactoryPage() {
   }
 
   function handleRemoveEmployee(employee) {
-    var newArr = employeeAllArray;
-    newArr.splice(newArr.indexOf(employee), 1);
-    const toStringUsers = JSON.stringify(newArr);
-    localStorage.setItem("employees", toStringUsers);
-    dispatch(fetchEmployeesAll());
+    dispatch(deleteEmployee(employee.ID));
+  }
+
+  function removeFactory() {
+    setRemoveItemToggle(false);
+    dispatch(deleteFactory(selected_factory));
+    navigate('/home');
   }
 
   return (
@@ -87,14 +109,24 @@ export default function FactoryPage() {
         <div className="pageContent">
           <div className="headingBtn">
             <div className="heading">{selected_factory.Name}</div>
-            {addEmployeeBtn && (
-              <div className="addBtn">
-                <button
-                  onClick={() => addEmployee()}
-                  className="btn btn-success"
-                >
-                  Add Employee
-                </button>
+            {addEmployeeBtn &&  removeFactoryBtn && (
+              <div>
+                <div className="addBtn">
+                  <button
+                    onClick={() => setRemoveItemToggle(true)}
+                    className="btn btn-danger"
+                  >
+                    Remove Factory
+                  </button>
+                </div>
+                <div className="addBtn">
+                  <button
+                    onClick={() => addEmployee()}
+                    className="btn btn-success"
+                  >
+                    Add Employee
+                  </button>
+                </div>
               </div>
             )}
           </div>
@@ -102,6 +134,14 @@ export default function FactoryPage() {
           {isLoading ? (
             <div className="employeeListLoader">
               <Loading />
+            </div>
+          ) : removeItemToggle ? (
+            <div className="sidebarData pageData">
+              <RemoveItem
+                props={removeItemProps}
+                onClose={() => setRemoveItemToggle(false)}
+                onRemove={() => removeFactory()}
+              />
             </div>
           ) : formDialog ? (
             <div className="sidebarData pageData">

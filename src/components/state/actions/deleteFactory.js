@@ -1,17 +1,19 @@
 import axios from "axios";
-import { EMPLOYEE_LIST } from "../types"
+import { FACTORY_LIST } from "../types";
 
-export const fetchEmployees = (factory) => (dispatch) => {
+export const deleteFactory = (data) => (dispatch) => {
     dispatch(load());
+  
     var config = {
-        method: 'get',
-        url: `http://localhost:5000/employee/getbyfactory/${factory}`,
-        headers: { }
+        method: 'post',
+        url: `http://localhost:5000/factory/delete`,
+        headers: { },
+        data: data
       };
       
       axios(config)
       .then(function (response) {
-        console.log(response.data.response);
+        console.log(response.data);
         dispatch(success(response.data.response))
       })
       .catch(function (error) {
@@ -19,18 +21,18 @@ export const fetchEmployees = (factory) => (dispatch) => {
         dispatch(error(error))
       });
       
-}
+  };
 
 export const load = () => ({
-    type: EMPLOYEE_LIST.load
+    type: FACTORY_LIST.load
 })
 
 export const success = (data) => ({
-    type: EMPLOYEE_LIST.success, 
+    type: FACTORY_LIST.success, 
     payload: data
 })
 
 export const error = (error) => ({
-    type: EMPLOYEE_LIST.error,
+    type: FACTORY_LIST.error,
     payload: error
 })

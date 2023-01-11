@@ -1,4 +1,5 @@
 const Factory = require("../Model/factory");
+const Employee = require("../Model/employee");
 
 const create = (req, res) => {
   let ID = req.body.ID;
@@ -70,8 +71,17 @@ const readFactory = (req, res) => {
     });
 };
 
-const deleteFactory = (req, res) => {
-  Factory.findOneAndRemove({ ID: req.params.id })
+async function deleteFactory(req, res) {
+  console.log("asljd", req.body);
+  Employee.deleteMany({ Factory: req.body.Name })
+    .then((data) => {
+      console.log("Data Deleted");
+    })
+    .catch((err) => {
+      console.log("err", err);
+    });
+
+  Factory.findOneAndRemove({ ID: req.body.ID })
     .then((data) => {
       Factory.find().then((remainingdata) => {
         console.log("Success: ");
@@ -89,7 +99,7 @@ const deleteFactory = (req, res) => {
       };
       res.send(response);
     });
-};
+}
 
 const update = (req, res) => {
   Factory.findOneAndUpdate(

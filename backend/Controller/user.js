@@ -61,7 +61,7 @@ const read = (req, res) => {
 };
 
 const readEmail = (req, res) => {
-  User.findOne({ Email: req.body.Email })
+  User.findOne({ Email: req.params.email })
     .then((data) => {
       console.log("Success: ");
       const response = {

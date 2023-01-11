@@ -1,0 +1,35 @@
+#message{
+    display: flex;
+    justify-content: center;
+    height: 11vw;
+    width: 50vw;
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 20px;
+}
+
+.removeitembtns{
+    display: flex;
+    justify-content: center;
+}
+
+.txt{
+    font-size: 1.2vw;
+    padding-top: 1%;
+    width: 50vw;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 3%;
+}
+
+.cancel{
+    padding: 2% 2% 0% 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#removeItemContent{
+    height: 100vh;
+    width: 77vw;
+    padding-left: 15%;
+    padding-top: 18%;
+}   

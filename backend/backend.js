@@ -3,8 +3,10 @@ const employeeRouter = require("./Routes/employee");
 const userRouter = require("./Routes/user");
 const factoryRouter = require("./Routes/factory");
 const app = express();
+const cors = require('cors')
 require("./db/conn");
 
+app.use(cors())
 app.use("/user", userRouter);
 app.use("/employee", employeeRouter);
 app.use("/factory", factoryRouter);

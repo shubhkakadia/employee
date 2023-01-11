@@ -16,5 +16,5 @@ router.get("/get", read);
 router.get("/get/:id", readID);
 router.post("/delete/:id", deleteEmp);
 router.put("/update", update);
-router.get("/getbyfactory", filterEmployee)
+router.get("/getbyfactory/:factory", filterEmployee)
 module.exports = router;

@@ -13,6 +13,6 @@ router.use(bodyparser.json());
 router.post("/create", create);
 router.get("/get", read);
 router.get("/get/:id", readFactory);
-router.post("/delete/:id", deleteFactory);
+router.post("/delete", deleteFactory);
 router.put("/update", update);
 module.exports = router;

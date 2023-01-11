@@ -1,10 +1,8 @@
 .sidebarData {
-  /* display: inline-block; */
   flex: 18%;
 }
 
 .pageContent {
-  /* display: inline-block; */
   flex: 82%;
   display: grid;
 }
@@ -26,13 +24,17 @@
   display: flex;
   justify-content: center;
   width: 82vw;
-  height: 87vh;
+  height: 80vh;
   /* padding-top: .5%; */
 }
 
 .addBtn {
-  margin-top: 2%;
+  /* position: absolute; */
+  display: none;
+  margin-top: 7%;
   z-index: 99;
+  display: inline-block;
+  width: 10vw;
 }
 
 .noData{
@@ -45,11 +47,12 @@
 }
 
 .heading {
-  width: 70vw;
+  width: 60vw;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  padding-left: 40%;
+  padding-right: 15%;
   font-size: 230%;
-  padding-top: 1%;
   height: 10vh;
   color:white;
 }

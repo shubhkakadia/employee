@@ -1,15 +1,24 @@
+import axios from "axios";
 import { FACTORY_LIST } from "../types"
 
 export const fetchFactories = () => (dispatch) => {
     dispatch(load());
-    const data = localStorage.getItem("factory");
-    if (data){
-        const factories = JSON.parse(data);
-        dispatch(success(factories));
-    }
-    else{
-        dispatch(error('Faield to Fetch'))
-    }
+    var config = {
+        method: 'get',
+        url: 'http://localhost:5000/factory/get',
+        headers: { }
+      };
+      
+      axios(config)
+      .then(function (response) {
+        console.log(response.data);
+        dispatch(success(response.data.response))
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(error(error))
+      });
+      
 }
 
 export const load = () => ({

@@ -1,15 +1,20 @@
+import axios from "axios";
 import { EMPLOYEE_LIST_ALL } from "../types"
 
 export const fetchEmployeesAll = () => (dispatch) => {
     dispatch(load());
-    const data = localStorage.getItem("employees");
-    if (data?.length > 0){
-        const employees = JSON.parse(data);
-        dispatch(success(employees));
+    const options = {
+        method: 'GET',
+        url: 'http://localhost:5000/employee/get',
     }
-    else{
-        dispatch(error('failed to Fetch All'))
-    }
+
+    axios.request(options).then(function (response){
+        // console.log(response.data);
+        dispatch(success(response.data.response))
+    }).catch(function(err) {
+        console.log(err);
+        dispatch(error('Faield to Fetch'))
+    })
 }
 
 export const load = () => ({

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { fetchEmployeesAll } from "../../../state/actions/employeeListAll";
+import { createEmployee } from "../../../state/actions/createEmployee";
 import "./addUserFrom.css";
+import moment from "moment";
+import { editEmployee } from "../../../state/actions/editEmployee";
 
 export default function AddUserForm(props) {
   const [id, setId] = useState("");
@@ -23,7 +25,7 @@ export default function AddUserForm(props) {
   const [IFSC, setIFSC] = useState("");
   const [note, setNote] = useState("");
   const [adhaarNo, setAdhaarNo] = useState("");
-  const [editEmployee, setEditEmployee] = useState("");
+  const [tempLeaveDate, setTempLeaveDate] = useState("");
   const dispatch = useDispatch();
   const d = new Date();
 
@@ -65,21 +67,21 @@ export default function AddUserForm(props) {
     setAddress(employee.Address);
     setVillageAddress(employee.VillageAddress);
     setReference(employee.Reference);
-    setJoinDate(employee.JoinDate);
-    setLeaveDate(employee.LeaveDate);
+    setJoinDate(moment(employee.JoinDate).format("YYYY-MM-DD"));
+    setLeaveDate(moment(employee.LeaveDate).format("YYYY-MM-DD"));
     setStillWorking(employee.StillWorking);
     setPhoneNo(employee.PhoneNo);
-    setDob(employee.DoB);
+    setDob(moment(employee.DoB).format("YYYY-MM-DD"));
     setPhoto(employee.Photo);
     setAdhaarNo(employee.AdhaarNo);
     setAccountNo(employee.AccountNo);
     setBankName(employee.BankName);
     setIFSC(employee.IFSC);
     setNote(employee.Note);
-    setEditEmployee(employee);
   }
 
   function employeeData(e) {
+    handleImage();
     e.preventDefault();
     if (validate()) {
       const newData = {
@@ -105,32 +107,26 @@ export default function AddUserForm(props) {
       };
 
       if (props.props.edit !== "") {
-        let newArr = props.props.employeeData;
-        var employeeIndex = newArr.indexOf(editEmployee);
-        newArr[employeeIndex] = newData;
-        storeEmployee(newArr);
+        dispatch(editEmployee(newData));
       } else {
-        storeEmployee([...props.props.employeeData, newData]);
+        console.log(newData);
+        dispatch(createEmployee(newData));
       }
-      getEmployees();
       clearData();
       generateID();
       props.onClose();
     }
   }
 
-  function storeEmployee(value) {
-    localStorage.setItem("employees", JSON.stringify(value));
-    dispatch(fetchEmployeesAll);
-  }
-
-  function getEmployees() {
-    dispatch(fetchEmployeesAll());
-  }
-
   function generateID() {
     var initialID = (d.getFullYear() - 2000) * 1000;
-    if (props.props.employeeData.length < 1) {
+    var lastEmpsID =
+      props.props.employeeData[props.props.employeeData.length - 1]?.ID;
+
+    if (
+      props.props.employeeData.length < 1 ||
+      Math.floor(lastEmpsID / 1000) + 2000 !== d.getFullYear()
+    ) {
       setId(initialID + 1);
     } else {
       setId(
@@ -141,11 +137,14 @@ export default function AddUserForm(props) {
 
   useEffect(() => {
     if (stillWorking === "Yes") {
+      setTempLeaveDate(leaveDate);
       document.getElementById("leaveDate").setAttribute("disabled", true);
       setLeaveDate("");
     } else {
+      setLeaveDate(tempLeaveDate);
       document.getElementById("leaveDate").removeAttribute("disabled", true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stillWorking]);
 
   function handleCheckBox(e) {
@@ -161,77 +160,66 @@ export default function AddUserForm(props) {
     if (firstName === "") {
       document.getElementById("firstName").classList.add("is-invalid");
       errorCounter += 1;
-    }
-    else{
+    } else {
       document.getElementById("firstName").classList.remove("is-invalid");
     }
 
     if (phoneNo === "") {
       document.getElementById("phoneNo").classList.add("is-invalid");
       errorCounter += 1;
-    }
-    else{
+    } else {
       document.getElementById("phoneNo").classList.remove("is-invalid");
     }
 
     if (dob === "") {
       document.getElementById("DoB").classList.add("is-invalid");
       errorCounter += 1;
-    }
-    else{
+    } else {
       document.getElementById("DoB").classList.remove("is-invalid");
     }
 
     if (adhaarNo === "") {
       document.getElementById("AdhaarNo").classList.add("is-invalid");
       errorCounter += 1;
-    }
-    else{
+    } else {
       document.getElementById("AdhaarNo").classList.remove("is-invalid");
     }
 
     if (address === "") {
       document.getElementById("Address").classList.add("is-invalid");
       errorCounter += 1;
-    }
-    else{
+    } else {
       document.getElementById("Address").classList.remove("is-invalid");
     }
 
     if (village === "") {
       document.getElementById("Village").classList.add("is-invalid");
       errorCounter += 1;
-    }
-    else{
+    } else {
       document.getElementById("Village").classList.remove("is-invalid");
     }
 
     if (villageAddress === "") {
       document.getElementById("VillageAddress").classList.add("is-invalid");
       errorCounter += 1;
-    }
-    else{
+    } else {
       document.getElementById("VillageAddress").classList.remove("is-invalid");
     }
 
     if (joinDate === "") {
       document.getElementById("joinDate").classList.add("is-invalid");
       errorCounter += 1;
-    }
-    else{
+    } else {
       document.getElementById("joinDate").classList.remove("is-invalid");
     }
 
-    console.log(stillWorking, leaveDate)
-    if (stillWorking==="No" && leaveDate === ""){
+    if (stillWorking === "No" && leaveDate === "") {
       document.getElementById("leaveDate").classList.add("is-invalid");
       errorCounter += 1;
-    }
-    else{
+    } else {
       document.getElementById("leaveDate").classList.remove("is-invalid");
     }
 
-    console.log(errorCounter);
     if (errorCounter > 0) {
       return false;
     }
@@ -239,9 +227,30 @@ export default function AddUserForm(props) {
     return true;
   }
 
+  function convertImgtoBase64(e, callback) {
+    const file = e.target.files[0];
+    if (file) {
+      var filereader = new FileReader();
+      filereader.readAsDataURL(file);
+      filereader.onload = function (evt) {
+        var base64 = evt.target.result;
+        console.log(base64)
+        setPhoto(base64);
+        return base64;
+      };
+    }
+  }
+
+  async function handleImage() {
+    await convertImgtoBase64(photo, function (dataUrl) {
+      console.log("RESULT:", dataUrl);
+    });
+  }
+
   return (
     <div>
       <div id="employeeForm">
+        {/* <img src={photo} alt="" /> */}
         <form onSubmit={(e) => employeeData(e)}>
           <div className="content">
             {props.props.edit ? (
@@ -386,13 +395,8 @@ export default function AddUserForm(props) {
                   className="form-control"
                   placeholder="temp"
                   value={address}
-                  onChange={(e) => setAddress(e.target.value)}
+                  onChange={(e) => setAddress(String(e.target.value))}
                   maxLength={64}
-                  onKeyPress={(event) => {
-                    if (!/^[a-zA-Z ]+$/.test(event.key)) {
-                      event.preventDefault();
-                    }
-                  }}
                 />
                 <label>Address</label>
               </div>
@@ -405,13 +409,8 @@ export default function AddUserForm(props) {
                   className="form-control"
                   placeholder="temp"
                   value={village}
-                  onChange={(e) => setVillage(e.target.value)}
+                  onChange={(e) => setVillage(String(e.target.value))}
                   maxLength={20}
-                  onKeyPress={(event) => {
-                    if (!/^[a-zA-Z ]+$/.test(event.key)) {
-                      event.preventDefault();
-                    }
-                  }}
                 />
                 <label>Village</label>
               </div>
@@ -425,13 +424,8 @@ export default function AddUserForm(props) {
                   className="form-control"
                   placeholder="temp"
                   value={villageAddress}
-                  onChange={(e) => setVillageAddress(e.target.value)}
+                  onChange={(e) => setVillageAddress(String(e.target.value))}
                   maxLength={64}
-                  onKeyPress={(event) => {
-                    if (!/^[a-zA-Z ]+$/.test(event.key)) {
-                      event.preventDefault();
-                    }
-                  }}
                 />
                 <label>Village Address</label>
               </div>
@@ -472,7 +466,7 @@ export default function AddUserForm(props) {
                 <input
                   type="file"
                   className="form-control"
-                  onChange={(e) => setPhoto(e.target.value)}
+                  onChange={(e) => convertImgtoBase64(e)}
                 />
                 <label>Photo</label>
               </div>
@@ -520,7 +514,7 @@ export default function AddUserForm(props) {
                   className="form-control"
                   placeholder="temp"
                   value={IFSC}
-                  onChange={(e) => setIFSC(e.target.value)}
+                  onChange={(e) => setIFSC(String(e.target.value))}
                   maxLength={11}
                   onKeyPress={(event) => {
                     if (!/[0-9]/.test(event.key)) {
@@ -539,7 +533,7 @@ export default function AddUserForm(props) {
                   className="form-control"
                   placeholder="temp"
                   value={accountNo}
-                  onChange={(e) => setAccountNo(e.target.value)}
+                  onChange={(e) => setAccountNo(String(e.target.value))}
                   onKeyPress={(event) => {
                     if (!/[0-9]/.test(event.key)) {
                       event.preventDefault();
@@ -572,15 +566,14 @@ export default function AddUserForm(props) {
           <div className="content">
             <div className="inline">
               <button
-                id="submitBtn"
-                className="btn btn-danger"
+                className="btn btn-danger submitBtn"
                 onClick={() => props.onClose()}
               >
                 Cancel
               </button>
             </div>
             <div className="inline">
-              <button id="submitBtn" className="btn btn-success" type="submit">
+              <button className="btn btn-success submitBtn" type="submit">
                 Save
               </button>
             </div>

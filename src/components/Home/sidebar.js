@@ -33,7 +33,7 @@ export default function Sidebar(props) {
       setFactoryList(factory_list);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [factory_list]);
 
   //   function createFactory() {
   //     const factoryList = [
@@ -108,16 +108,22 @@ export default function Sidebar(props) {
           <div className="border-top border-opacity line"></div>
         </div>
         <div>
-          {factoryList.map((item, i) => {
-            return (
-              <div key={i}>
-                <Factory props={item} />
-              </div>
-            );
-          })}
+          {factoryList?.length > 0 &&
+            factoryList?.map((item, i) => {
+              return (
+                <div key={i}>
+                    <Factory props={item} />
+                </div>
+              );
+            })}
         </div>
         <div className="addFactoryBtn">
-          <button onClick={()=> props.onAdd()} className="btn btn-success">Add Factory</button>
+          <button
+            onClick={() => navigate("/addfactory")}
+            className="btn btn-success"
+          >
+            Add Factory
+          </button>
         </div>
       </div>
     </>

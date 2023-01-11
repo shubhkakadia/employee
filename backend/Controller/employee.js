@@ -165,7 +165,7 @@ const update = (req, res) => {
 };
 
 const filterEmployee = (req, res) => {
-  Emp.find().where({ Factory: req.body.Factory })
+  Emp.find().where({ Factory: req.params.factory })
     .then((data) => {
       console.log("Success: ");
       const response = {

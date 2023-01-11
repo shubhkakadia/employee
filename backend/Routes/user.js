@@ -12,7 +12,7 @@ const bodyparser = require("body-parser");
 router.use(bodyparser.json());
 router.post("/create", create);
 router.get("/get", read);
-router.get("/getuser", readEmail);
+router.get("/getuser/:email", readEmail);
 router.post("/delete", deleteUser);
 router.put("/update", update);
 module.exports = router;

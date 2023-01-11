@@ -1,6 +1,7 @@
 import React from "react";
 import employeeImg from "../../../../assets/user_default.png";
 import "./viewEmployee.css";
+import moment from 'moment'
 
 export default function ViewEmployee(props) {
   return (
@@ -69,7 +70,7 @@ export default function ViewEmployee(props) {
 
               <div className="cardTxt">
                 <div className="inline lb">Date of Birth: </div>
-                <div className="inline">{props.props.DoB}</div>
+                <div className="inline">{moment(props.props.DoB).format('DD/MM/YYYY')}</div>
               </div>
 
               <div className="cardTxt">
@@ -100,13 +101,13 @@ export default function ViewEmployee(props) {
             <div className="rightSide">
               <div className="cardTxt">
                 <div className="inline lb">Join Date: </div>
-                <div className="inline">{props.props.JoinDate}</div>
+                <div className="inline">{moment(props.props.JoinDate).format('DD/MM/YYYY')}</div>
               </div>
 
               {props.props.LeaveDate ? (
                 <div className="cardTxt">
                   <div className="inline lb">Leave Date: </div>
-                  <div className="inline">{props.props.LeaveDate}</div>
+                  <div className="inline">{moment(props.props.LeaveDate).format('DD/MM/YYYY')}</div>
                 </div>
               ) : (
                 <></>

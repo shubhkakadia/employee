@@ -15,38 +15,30 @@ const employeeSchema = new mongoose.Schema({
   },
   LastName: {
     type: String,
-    required: true,
   },
   PhoneNo: {
     type: Number,
-    require: true,
   },
   DoB: {
     type: Date,
-    require: true,
   },
   AdhaarNo: {
     type: Number,
-    require: true,
   },
   Reference: {
     type: String,
   },
   Address: {
     type: String,
-    require: true,
   },
   Village: {
     type: String,
-    require: true,
   },
   VillageAddress: {
     type: String,
-    require: true,
   },
   JoinDate: {
     type: Date,
-    require: true,
   },
   LeaveDate: {
     type: Date,
@@ -62,10 +54,10 @@ const employeeSchema = new mongoose.Schema({
     type: String,
   },
   IFSC: {
-    type: Number,
+    type: String,
   },
   AccountNo: {
-    type: Number,
+    type: String,
   },
   Note: {
     type: String,
