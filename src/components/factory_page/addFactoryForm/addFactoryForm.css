@@ -1,16 +1,16 @@
 .left {
-  width: 20vw;
+  width: 19vw;
 }
 
 .right {
   width: 80vw;
 }
 
-.content1{
-    display: flex;
-    justify-content: center;
-    padding-top: 2%;
-    padding-bottom: 1%;
+.content1 {
+  display: flex;
+  justify-content: center;
+  padding-top: 2%;
+  padding-bottom: 1%;
 }
 
 #factoryForm {
@@ -18,7 +18,7 @@
   position: absolute;
   margin-left: 15%;
   margin-top: 10%;
-  height: 65vh;
+  height: 70vh;
   width: 45vw;
   border-radius: 15px;
   background-color: rgba(225, 225, 225, 0.5);

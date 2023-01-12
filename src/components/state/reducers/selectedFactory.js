@@ -1,15 +1,17 @@
-import { SELECTED_FACTORY } from "../types"
+import { SELECTED_FACTORY } from "../types";
 
 const initialState = {
-    selected: ""
-}
+  selected: "",
+};
 
 export const SelectFactoryReducer = (state = initialState, action) => {
-    switch (action.type){
-        case SELECTED_FACTORY.selected:
-            return{
-                ...state, selected: action.payload
-            }
-        default: return state
-    }
-}
+  switch (action.type) {
+    case SELECTED_FACTORY.selected:
+      return {
+        ...state,
+        selected: action.payload,
+      };
+    default:
+      return state;
+  }
+};

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ViewEmployee from "../viewEmployee/viewEmployee";
 import "./table.css";
+import employeeImg from "../../../assets/user_default.png";
 
 export default function Table(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage] = useState(10);
-  const [viewEmployeeToggle, setViewEmployeeToggle] = useState('');
+  const [viewEmployeeToggle, setViewEmployeeToggle] = useState("");
 
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
@@ -20,29 +21,42 @@ export default function Table(props) {
     setCurrentPage(1);
   }, [props.props]);
 
+  useEffect(() => {
+    if (viewEmployeeToggle === false) {
+      props.onClose();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [viewEmployeeToggle]);
+
   const nextPage = () => {
     if (currentPage !== nPages) setCurrentPage(currentPage + 1);
   };
+
   const prevPage = () => {
     if (currentPage !== 1) setCurrentPage(currentPage - 1);
   };
 
-  function handleViewEmployee(item){
+  function handleViewEmployee(item) {
     setViewEmployeeToggle(item);
     props.onView();
   }
-  useEffect(() => {
-    if (viewEmployeeToggle === false){
-      props.onClose()
+
+  function handle_photo(item) {
+    if (item.Photo !== "") {
+      return item.Photo;
+    } else {
+      return employeeImg;
     }
-    
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [viewEmployeeToggle])
-  
+  }
+
   return (
     <>
       {viewEmployeeToggle ? (
-        <ViewEmployee props={viewEmployeeToggle} onClose={() => setViewEmployeeToggle(false)}/>
+        <ViewEmployee
+          props={viewEmployeeToggle}
+          onClose={() => setViewEmployeeToggle(false)}
+        />
       ) : (
         <div className="tableContent shadow-lg ">
           <table className="table table-striped table-hover">
@@ -65,7 +79,7 @@ export default function Table(props) {
                     <td>{item.ID}</td>
                     <td>
                       <img
-                        src={item.Photo}
+                        src={handle_photo(item)}
                         width={30}
                         height={30}
                         alt=""
@@ -89,10 +103,11 @@ export default function Table(props) {
                       ></i>
                     </td>
                     <td>
-                    <button className="btn btn-danger btn-sm" onClick={() => props.onRemove(item)}>
-                      <i
-                        className="bi bi-trash icon"
-                      ></i>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => props.onRemove(item)}
+                      >
+                        <i className="bi bi-trash icon"></i>
                       </button>
                     </td>
                   </tr>

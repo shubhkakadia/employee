@@ -1,11 +1,10 @@
-import { SELECTED_FACTORY } from "../types"
+import { SELECTED_FACTORY } from "../types";
 
 export const selectFactory = (factory) => (dispatch) => {
-    dispatch(select(factory));
-}
-
+  dispatch(select(factory));
+};
 
 export const select = (factory) => ({
-    type: SELECTED_FACTORY.selected,
-    payload: factory
-})
+  type: SELECTED_FACTORY.selected,
+  payload: factory,
+});

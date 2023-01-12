@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import AddFactoryForm from "./components/factory_page/addFactoryForm/addFactoryForm";
 import FactoryPage from "./components/factory_page/factoryPage";
-import Dashboard from "./components/Home/dashboard";
+import Dashboard from "./components/dashboard/dashboard";
 import LandingPage from "./components/landingPage/landingPage";
 
 function App() {

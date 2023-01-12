@@ -7,6 +7,15 @@ import { Link } from "react-router-dom";
 
 export default function Factory(props) {
   const dispatch = useDispatch();
+
+  function handle_photo() {
+    if (props.props.Photo !== "") {
+      return props.props.Photo;
+    } else {
+      return altImg;
+    }
+  }
+
   return (
     <>
       <div className="link">
@@ -16,7 +25,7 @@ export default function Factory(props) {
         >
           <div className="iconName im">
             <img
-              src={altImg}
+              src={handle_photo()}
               alt={altImg}
               width={30}
               height={30}

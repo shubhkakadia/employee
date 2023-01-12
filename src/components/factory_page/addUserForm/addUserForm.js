@@ -81,7 +81,6 @@ export default function AddUserForm(props) {
   }
 
   function employeeData(e) {
-    handleImage();
     e.preventDefault();
     if (validate()) {
       const newData = {
@@ -227,24 +226,18 @@ export default function AddUserForm(props) {
     return true;
   }
 
-  function convertImgtoBase64(e, callback) {
+  function convertImgtoBase64(e) {
     const file = e.target.files[0];
     if (file) {
       var filereader = new FileReader();
       filereader.readAsDataURL(file);
       filereader.onload = function (evt) {
         var base64 = evt.target.result;
-        console.log(base64)
+        console.log(base64);
         setPhoto(base64);
         return base64;
       };
     }
-  }
-
-  async function handleImage() {
-    await convertImgtoBase64(photo, function (dataUrl) {
-      console.log("RESULT:", dataUrl);
-    });
   }
 
   return (

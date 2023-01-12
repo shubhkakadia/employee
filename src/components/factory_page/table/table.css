@@ -1,20 +1,20 @@
-.tableContent{
-    padding-left: 1%;
-    padding-top: 1%;
-    padding-right: 1%;
-    padding-bottom: 1px;
-    width: 75vw;
-    background-color: rgba(255, 255, 255, 0.75);
-    border-radius: 10px;
+.tableContent {
+  padding-left: 1%;
+  padding-top: 1%;
+  padding-right: 1%;
+  padding-bottom: 1px;
+  width: 75vw;
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 10px;
 }
 
-.pagination{
-    justify-content: center;
+.pagination {
+  justify-content: center;
 }
-.icon{
-    cursor: pointer;
+.icon {
+  cursor: pointer;
 }
 
-.employeeImg{
-    border-radius: 50px;
+.employeeImg {
+  border-radius: 50px;
 }

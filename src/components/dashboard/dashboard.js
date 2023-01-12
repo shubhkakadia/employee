@@ -17,7 +17,7 @@ export default function Home() {
     dispatch(fetchEmployeesAll());
     dispatch(fetchFactories());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);  
+  }, []);
 
   function inValidLogin() {
     if (loggedInUser === "") {
@@ -32,8 +32,7 @@ export default function Home() {
           <Sidebar />
         </div>
 
-        <div className="right">
-        </div>
+        <div className="right"></div>
       </div>
     </>
   );

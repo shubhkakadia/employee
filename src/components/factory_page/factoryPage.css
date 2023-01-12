@@ -23,40 +23,65 @@
 .employeeDataTable {
   display: flex;
   justify-content: center;
-  width: 82vw;
+  width: 80vw;
   height: 80vh;
-  /* padding-top: .5%; */
+  padding-top: 1%;
 }
 
-.addBtn {
-  /* position: absolute; */
-  display: none;
-  margin-top: 7%;
-  z-index: 99;
+.actionBtn {
   display: inline-block;
-  width: 10vw;
+  width: 12vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.noData{
+.noData {
   height: 55vh;
-  width: 80%;
+  width: 100%;
   justify-content: center;
+  align-items: center;
   display: flex;
-  padding-left: 5%;
   font-size: 150%;
+  color: white;
 }
 
 .heading {
-  width: 60vw;
+  width: 54vw;
+  height: 9vh;
   display: flex;
-  align-items: center;
-  padding-left: 40%;
-  padding-right: 15%;
-  font-size: 230%;
-  height: 10vh;
-  color:white;
+  flex-direction: column;
+  padding-left: 3%;
+  color: white;
 }
 
 .headingBtn {
+  padding-top: 1%;
   display: flex;
+}
+
+.buttons{
+  width: 27vw;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  float: right;
+  justify-content: center;
+  margin-left: auto;
+}
+
+.addBtn{
+  padding-right: 3.25%;
+  float: right;
+}
+
+.editForm{
+  padding-top: 1%;
+  position: absolute;
+  margin-left: 15%;
+  margin-top: 5%;
+  height: 70vh;
+  width: 40vw;
+  border-radius: 15px;
+  background-color: rgba(225, 225, 225, 0.5);
 }

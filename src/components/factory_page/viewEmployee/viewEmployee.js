@@ -1,9 +1,17 @@
 import React from "react";
 import employeeImg from "../../../assets/user_default.png";
 import "./viewEmployee.css";
-import moment from 'moment'
+import moment from "moment";
 
 export default function ViewEmployee(props) {
+  function handle_photo() {
+    if (props.props.Photo !== "") {
+      return props.props.Photo;
+    } else {
+      return employeeImg;
+    }
+  }
+  
   return (
     <div>
       <div className="content">
@@ -12,11 +20,11 @@ export default function ViewEmployee(props) {
             <div className="borderradius">
               <div>
                 <img
-                  src={employeeImg}
-                  className="responsive employeeImgC"
+                  src={handle_photo()}
+                  className="responsive employeeImgC shadow-lg"
                   height={225}
                   width={225}
-                  alt="..."
+                  alt={employeeImg}
                 />
               </div>
             </div>
@@ -70,7 +78,9 @@ export default function ViewEmployee(props) {
 
               <div className="cardTxt">
                 <div className="inline lb">Date of Birth: </div>
-                <div className="inline">{moment(props.props.DoB).format('DD/MM/YYYY')}</div>
+                <div className="inline">
+                  {moment(props.props.DoB).format("DD/MM/YYYY")}
+                </div>
               </div>
 
               <div className="cardTxt">
@@ -101,13 +111,17 @@ export default function ViewEmployee(props) {
             <div className="rightSide">
               <div className="cardTxt">
                 <div className="inline lb">Join Date: </div>
-                <div className="inline">{moment(props.props.JoinDate).format('DD/MM/YYYY')}</div>
+                <div className="inline">
+                  {moment(props.props.JoinDate).format("DD/MM/YYYY")}
+                </div>
               </div>
 
               {props.props.LeaveDate ? (
                 <div className="cardTxt">
                   <div className="inline lb">Leave Date: </div>
-                  <div className="inline">{moment(props.props.LeaveDate).format('DD/MM/YYYY')}</div>
+                  <div className="inline">
+                    {moment(props.props.LeaveDate).format("DD/MM/YYYY")}
+                  </div>
                 </div>
               ) : (
                 <></>

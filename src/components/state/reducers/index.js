@@ -6,11 +6,11 @@ import { SelectFactoryReducer } from "./selectedFactory";
 import { userListReducer } from "./userList";
 
 const reducers = combineReducers({
-    userList: userListReducer,
-    factoryList: factoryListReducer,
-    selectedFactory: SelectFactoryReducer,
-    employeeList: employeeListReducer,
-    employeeListAll: employeeListAllReducer
-})
+  userList: userListReducer,
+  factoryList: factoryListReducer,
+  selectedFactory: SelectFactoryReducer,
+  employeeList: employeeListReducer,
+  employeeListAll: employeeListAllReducer,
+});
 
 export default reducers;

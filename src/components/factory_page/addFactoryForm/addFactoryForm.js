@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { createFactory } from "../../state/actions/createFactory";
 import Sidebar from "../../sidebar/sidebar";
 import "./addFactoryForm.css";
+import { selectFactory } from "../../state/actions/selectFactory";
+import Loading from "../../landingPage/loading";
 
 export default function AddFactoryForm() {
   const navigate = useNavigate();
@@ -11,43 +13,92 @@ export default function AddFactoryForm() {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [photo, setPhoto] = useState("");
+  const [fileLarge, setFileLarge] = useState(false);
   const dispatch = useDispatch();
 
   const factoryList = useSelector((state) => state.factoryList.data);
+  const factoryListError = useSelector((state) => state.factoryList.error);
+  const factoryListLoading = useSelector((state) => state.factoryList.error);
 
   function close() {
-    navigate(`/${name}`);
+    navigate(`/${name.replace(/ +/g, "_")}`);
   }
 
   useEffect(() => {
     generateID();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function generateID() {
     var initialID = 1;
 
     if (factoryList.length < 1) {
-      setID(initialID)
-    }
-    else{
-      setID(factoryList[factoryList.length -1].ID +1);
+      setID(initialID);
+    } else {
+      setID(factoryList[factoryList.length - 1].ID + 1);
     }
   }
 
-  function save(e) {
-    e.preventDefault()
-    const newFactory = {
-      ID: id,
-      Name: name,
-      Address: address,
-      Photo: photo
-    };
-    console.log(newFactory);
-    dispatch(createFactory(newFactory));
-    close();
+  function validation() {
+    var errorCounter = 0;
+    if (name === "") {
+      document.getElementById("Name").classList.add("is-invalid");
+      errorCounter += 1;
+    } else {
+      document.getElementById("Name").classList.remove("is-invalid");
+    }
+
+    if (address === "") {
+      document.getElementById("Address").classList.add("is-invalid");
+      errorCounter += 1;
+    } else {
+      document.getElementById("Address").classList.remove("is-invalid");
+    }
+    if (errorCounter > 0) {
+      return false;
+    }
+    return true;
   }
 
+  async function save(e) {
+    e.preventDefault();
+    if (validation()) {
+      const newFactory = {
+        ID: id,
+        Name: name,
+        Address: address,
+        Photo: photo,
+      };
+      await dispatch(createFactory(newFactory));
+      console.log(factoryListError);
+      console.log(factoryList);
+      if (factoryListError !== "") {
+        document.getElementById("Photo").classList.add("is-invalid");
+        setFileLarge(true);
+      } else if (!factoryListError) {
+        console.log("false");
+        setFileLarge(false);
+        document.getElementById("Photo").classList.remove("is-invalid");
+        dispatch(selectFactory(newFactory));
+        close();
+      }
+    }
+  }
+
+  function convertImgtoBase64(e) {
+    const file = e.target.files[0];
+    if (file) {
+      var filereader = new FileReader();
+      filereader.readAsDataURL(file);
+      filereader.onload = function (evt) {
+        var base64 = evt.target.result;
+        console.log(base64);
+        setPhoto(base64);
+        return base64;
+      };
+    }
+  }
+  
   return (
     <div className="homeBody">
       <div className="left">
@@ -77,7 +128,7 @@ export default function AddFactoryForm() {
               <div className="inline">
                 <div className="form-floating">
                   <input
-                    id="firstName"
+                    id="Name"
                     className="form-control"
                     placeholder="temp"
                     value={name}
@@ -108,13 +159,23 @@ export default function AddFactoryForm() {
             <div className="content1">
               <div className="form-floating">
                 <input
+                  id="Photo"
                   type="file"
                   className="form-control"
-                  onChange={(e) => setPhoto(e.target.value)}
+                  onChange={(e) => convertImgtoBase64(e)}
                 />
                 <label>Photo</label>
               </div>
             </div>
+            {fileLarge ? (
+              <div className="content1">
+                <div>
+                  <h6>File Too Large! Try again with smaller file.</h6>
+                </div>
+              </div>
+            ) : (
+              <></>
+            )}
 
             <div className="content1">
               <div className="inline">
@@ -134,6 +195,13 @@ export default function AddFactoryForm() {
                   Close
                 </button>
               </div>
+              {factoryListLoading ? (
+                <div className="inline">
+                  <Loading />
+                </div>
+              ) : (
+                <></>
+              )}
             </div>
           </form>
         </div>

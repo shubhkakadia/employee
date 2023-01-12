@@ -1,26 +1,35 @@
-.sideBar{
-    position: absolute;
-    top: 2%;
-    border-radius: 0 20px 20px 0;
-    height: 95vh;
-    width: 18vw;
-    background-color: rgba(45, 44, 44, 0.7);
+.sideBar {
+  position: absolute;
+  top: 2%;
+  border-radius: 0 20px 20px 0;
+  height: 95vh;
+  width: 18vw;
+  background-color: rgba(45, 44, 44, 0.7);
 }
 
-.line{
-    width: 15vw;
-    margin-left: 7%;
-    margin-top: 10%;
-    margin-bottom: 5%;
-    opacity: 0.4;
+.line {
+  width: 15vw;
+  margin-left: 7%;
+  margin-top: 10%;
+  margin-bottom: 5%;
+  opacity: 0.4;
 }
 
-.dropdown{
-    z-index: 99;
+.dropdown {
+  z-index: 99;
 }
 
-.addFactoryBtn{
-    padding-top: 15%;
-    display: flex;
-    justify-content: center;
+.addFactoryBtn {
+  padding-top: 15%;
+  display: flex;
+  justify-content: center;
+}
+
+.factoryList{
+  height: 65vh;
+  overflow: auto;
+}
+
+.factoryList::-webkit-scrollbar {
+  display: none;
 }

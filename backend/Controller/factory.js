@@ -17,12 +17,14 @@ const create = (req, res) => {
   newFactory
     .save()
     .then((data) => {
-      console.log("Success: ");
-      const response = {
-        status: "Success",
-        response: data,
-      };
-      res.send(response);
+      Factory.find().then((data) => {
+        console.log("Success: ");
+        const response = {
+          status: "Success",
+          response: data,
+        };
+        res.send(response);
+      })
     })
     .catch((err) => {
       const response = {
@@ -53,7 +55,7 @@ const read = (req, res) => {
 };
 
 const readFactory = (req, res) => {
-  Factory.findOne({ ID: req.params.id })
+  Factory.findOne({ Name : req.params.name })
     .then((data) => {
       console.log("Success: ");
       const response = {
@@ -71,7 +73,7 @@ const readFactory = (req, res) => {
     });
 };
 
-async function deleteFactory(req, res) {
+function deleteFactory(req, res) {
   console.log("asljd", req.body);
   Employee.deleteMany({ Factory: req.body.Name })
     .then((data) => {
@@ -102,6 +104,15 @@ async function deleteFactory(req, res) {
 }
 
 const update = (req, res) => {
+
+  Employee.updateMany({Factory: req.body.OldName}, { Factory: req.body.Name })
+    .then((data) => {
+      console.log("Employee Data Updated");
+    })
+    .catch((err) => {
+      console.log("err", err);
+    });
+
   Factory.findOneAndUpdate(
     { ID: req.body.ID },
     {

@@ -1,6 +1,6 @@
 .homeBody {
   height: 100vh;
   display: flex;
-  background-image: url('../../assets/forest2.jpg');
+  background-image: url("../../assets/forest2.jpg");
   background-size: cover;
 }

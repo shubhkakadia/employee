@@ -1,5 +1,4 @@
 .gradient-custom {
-  
   /* fallback for old browsers */
   background: #6a11cb;
 
@@ -18,26 +17,26 @@
   );
 }
 
-.card-h{
+.card-h {
   height: 90vh;
 }
 .loginCard {
   border-radius: 2.5rem !important;
 }
 
-.eye{
-    margin-left: -30px !important;
-    cursor: pointer;
-    margin-bottom: 1% !important;
+.eye {
+  margin-left: -30px !important;
+  cursor: pointer;
+  margin-bottom: 1% !important;
 }
 
-.input-icons{
-    display: inline-block !important;
-    color: black !important;
+.input-icons {
+  display: inline-block !important;
+  color: black !important;
 }
 
-.email{
-    padding-left: 7px;
+.email {
+  padding-left: 7px;
 }
 
 .loader {
@@ -50,11 +49,15 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
-.load{
+.load {
   display: flex;
   justify-content: center;
   margin-top: 10%;
