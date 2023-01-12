@@ -1,5 +1,5 @@
 import React from "react";
-import employeeImg from "../../../../assets/user_default.png";
+import employeeImg from "../../../assets/user_default.png";
 import "./viewEmployee.css";
 import moment from 'moment'
 

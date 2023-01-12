@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchEmployeesAll } from "../state/actions/employeeListAll";
 import { fetchFactories } from "../state/actions/factoryList";
-import "./home.css";
-import Sidebar from "./sidebar";
+import "./dashboard.css";
+import Sidebar from "../sidebar/sidebar";
 
 export default function Home() {
   const loggedInUser = useSelector((state) => state.userList.data);

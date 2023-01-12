@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { createFactory } from "../../../state/actions/createFactory";
-import Sidebar from "../../sidebar";
+import { createFactory } from "../../state/actions/createFactory";
+import Sidebar from "../../sidebar/sidebar";
 import "./addFactoryForm.css";
 
 export default function AddFactoryForm() {

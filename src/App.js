@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import AddFactoryForm from "./components/Home/factory_page/addFactoryForm/addFactoryForm";
-import FactoryPage from "./components/Home/factory_page/factoryPage";
-import Home from "./components/Home/home";
+import AddFactoryForm from "./components/factory_page/addFactoryForm/addFactoryForm";
+import FactoryPage from "./components/factory_page/factoryPage";
+import Dashboard from "./components/Home/dashboard";
 import LandingPage from "./components/landingPage/landingPage";
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
         <Routes>
           <Route path="/addfactory" element={<AddFactoryForm />} />
           <Route path="/" element={<LandingPage />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/:factory" element={<FactoryPage />} />
         </Routes>
       </BrowserRouter>

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import Factory from "./factory/factory";
+import Factory from "../factory/factory";
 import altImg from "../../assets/user_default.png";
 import "./sidebar.css";
 import { loggedOut } from "../state/actions/userList";

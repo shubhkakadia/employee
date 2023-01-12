@@ -36,7 +36,7 @@ export default function LandingPage() {
 
   function redirect() {
     if (loggedInUser) {
-      navigate("/home");
+      navigate("/dashboard");
     }
   }
 

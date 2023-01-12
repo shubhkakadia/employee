@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { createEmployee } from "../../../state/actions/createEmployee";
+import { createEmployee } from "../../state/actions/createEmployee";
 import "./addUserFrom.css";
 import moment from "moment";
-import { editEmployee } from "../../../state/actions/editEmployee";
+import { editEmployee } from "../../state/actions/editEmployee";
 
 export default function AddUserForm(props) {
   const [id, setId] = useState("");

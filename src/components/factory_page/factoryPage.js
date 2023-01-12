@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchEmployees } from "../../state/actions/employeeList";
-import Sidebar from "../sidebar";
+import { fetchEmployees } from "../state/actions/employeeList";
+import Sidebar from "../sidebar/sidebar";
 import AddUserForm from "./addUserForm/addUserForm";
 import "./factoryPage.css";
 import Table from "./table/table";
-import Loading from "../../landingPage/loading";
+import Loading from "../landingPage/loading";
 import AddFactoryForm from "./addFactoryForm/addFactoryForm";
-import { deleteEmployee } from "../../state/actions/deleteEmployee";
+import { deleteEmployee } from "../state/actions/deleteEmployee";
 import RemoveItem from "./removeItem/removeItem";
-import { deleteFactory } from "../../state/actions/deleteFactory";
+import { deleteFactory } from "../state/actions/deleteFactory";
 import { useNavigate } from "react-router-dom";
 
 export default function FactoryPage() {
