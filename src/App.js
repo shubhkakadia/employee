@@ -4,6 +4,8 @@ import AddFactoryForm from "./components/factory_page/addFactoryForm/addFactoryF
 import FactoryPage from "./components/factory_page/factoryPage";
 import Dashboard from "./components/dashboard/dashboard";
 import LandingPage from "./components/landingPage/landingPage";
+import UserSettings from "./components/userSettings/userSettings";
+import ProtectedRoutes from "./ProtectedRoutes";
 
 function App() {
   return (
@@ -20,10 +22,39 @@ function App() {
       />
       <BrowserRouter>
         <Routes>
-          <Route path="/addfactory" element={<AddFactoryForm />} />
+          <Route
+            path="/addfactory"
+            element={
+              <ProtectedRoutes>
+                <AddFactoryForm />
+              </ProtectedRoutes>
+            }
+          />
           <Route path="/" element={<LandingPage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/:factory" element={<FactoryPage />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoutes>
+                <Dashboard />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/:factory"
+            element={
+              <ProtectedRoutes>
+                <FactoryPage />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoutes>
+                <UserSettings />
+              </ProtectedRoutes>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>

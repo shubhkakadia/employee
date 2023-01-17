@@ -47,6 +47,9 @@ const employeeSchema = new mongoose.Schema({
     data: Buffer,
     type: String,
   },
+  RoleName: {
+    type: String,
+  },
   StillWorking: {
     type: String,
   },

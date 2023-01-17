@@ -15,6 +15,7 @@ const create = (req, res) => {
   let JoinDate = req.body.JoinDate;
   let LeaveDate = req.body.LeaveDate;
   let Photo = req.body.Photo;
+  let RoleName = req.body.RoleName;
   let StillWorking = req.body.StillWorking;
   let BankName = req.body.BankName;
   let IFSC = req.body.IFSC;
@@ -35,6 +36,7 @@ const create = (req, res) => {
     JoinDate,
     LeaveDate,
     Photo,
+    RoleName,
     StillWorking,
     BankName,
     IFSC,
@@ -46,7 +48,7 @@ const create = (req, res) => {
     .save()
     .then((data) => {
       Emp.find().then((remainingdata) => {
-        console.log("Success: ");
+        console.log("Create Employee (Success) ");
         const response = {
           status: "Success",
           response: remainingdata,
@@ -66,7 +68,7 @@ const create = (req, res) => {
 const read = (req, res) => {
   Emp.find()
     .then((data) => {
-      console.log("Success: ");
+      console.log("Read Employee (Success) ");
       const response = {
         status: "Success",
         response: data,
@@ -85,7 +87,7 @@ const read = (req, res) => {
 const readID = (req, res) => {
   Emp.findOne({ ID: req.params.id })
     .then((data) => {
-      console.log("Success: ");
+      console.log("Read Employee By ID (Success) ");
       const response = {
         status: "Success",
         response: data,
@@ -105,7 +107,7 @@ const deleteEmp = (req, res) => {
   Emp.findOneAndRemove({ ID: req.params.id })
     .then((data) => {
       Emp.find().then((remainingdata) => {
-        console.log("Success: ");
+        console.log("Delete Employee (Success) ");
         const response = {
           status: "Success",
           response: remainingdata,
@@ -138,6 +140,7 @@ const update = (req, res) => {
       JoinDate: req.body.JoinDate,
       LeaveDate: req.body.LeaveDate,
       Photo: req.body.Photo,
+      RoleName: req.body.RoleName,
       StillWorking: req.body.StillWorking,
       BankName: req.body.BankName,
       IFSC: req.body.IFSC,
@@ -147,7 +150,7 @@ const update = (req, res) => {
   )
     .then((data) => {
       Emp.find().then((remainingdata) => {
-        console.log("Success: ");
+        console.log("Update Employee (Success) ");
         const response = {
           status: "Success",
           response: remainingdata,
@@ -165,9 +168,10 @@ const update = (req, res) => {
 };
 
 const filterEmployee = (req, res) => {
-  Emp.find().where({ Factory: req.params.factory })
+  Emp.find()
+    .where({ Factory: req.params.factory })
     .then((data) => {
-      console.log("Success: ");
+      console.log("Filter Employee (Success) ");
       const response = {
         status: "Success",
         response: data,
@@ -181,7 +185,7 @@ const filterEmployee = (req, res) => {
       };
       res.send(response);
     });
-}
+};
 
 module.exports = {
   create,
@@ -189,5 +193,5 @@ module.exports = {
   readID,
   deleteEmp,
   update,
-  filterEmployee
+  filterEmployee,
 };

@@ -18,13 +18,13 @@ const create = (req, res) => {
     .save()
     .then((data) => {
       Factory.find().then((data) => {
-        console.log("Success: ");
+        console.log("Create Factory (Success)");
         const response = {
           status: "Success",
           response: data,
         };
         res.send(response);
-      })
+      });
     })
     .catch((err) => {
       const response = {
@@ -38,7 +38,7 @@ const create = (req, res) => {
 const read = (req, res) => {
   Factory.find()
     .then((data) => {
-      console.log("Success: ");
+      console.log("Read Factory (Success) ");
       const response = {
         status: "Success",
         response: data,
@@ -55,9 +55,9 @@ const read = (req, res) => {
 };
 
 const readFactory = (req, res) => {
-  Factory.findOne({ Name : req.params.name })
+  Factory.findOne({ Name: req.params.name })
     .then((data) => {
-      console.log("Success: ");
+      console.log("Read Factory By Name (Success)");
       const response = {
         status: "Success",
         response: data,
@@ -74,7 +74,6 @@ const readFactory = (req, res) => {
 };
 
 function deleteFactory(req, res) {
-  console.log("asljd", req.body);
   Employee.deleteMany({ Factory: req.body.Name })
     .then((data) => {
       console.log("Data Deleted");
@@ -86,7 +85,7 @@ function deleteFactory(req, res) {
   Factory.findOneAndRemove({ ID: req.body.ID })
     .then((data) => {
       Factory.find().then((remainingdata) => {
-        console.log("Success: ");
+        console.log("Remove Factory (Success)");
         const response = {
           status: "Success",
           response: remainingdata,
@@ -104,8 +103,7 @@ function deleteFactory(req, res) {
 }
 
 const update = (req, res) => {
-
-  Employee.updateMany({Factory: req.body.OldName}, { Factory: req.body.Name })
+  Employee.updateMany({ Factory: req.body.OldName }, { Factory: req.body.Name })
     .then((data) => {
       console.log("Employee Data Updated");
     })
@@ -123,12 +121,52 @@ const update = (req, res) => {
   )
     .then((data) => {
       Factory.find().then((remainingdata) => {
-        console.log("Success: ");
+        console.log("Update Factory (Success)");
         const response = {
           status: "Success",
           response: remainingdata,
         };
         res.send(response);
+      });
+    })
+    .catch((err) => {
+      const response = {
+        status: "Error",
+        response: err,
+      };
+      res.send(response);
+    });
+};
+
+const readAllFactoryEmployee = (req, res) => {
+  let tempArr = [];
+  Factory.find()
+    .then((data) => {
+      data.forEach(async (item) => {
+        await Employee.find()
+          .where({ Factory: item.Name })
+          .then((data2) => {
+            const factoryObj = {
+              Factory: item,
+              EmployeeArr: data2,
+            };
+            tempArr.push(factoryObj);
+            if (item === data[data.length - 1]) {
+              console.log("Read All Factory with employee (Success)");
+              const response = {
+                status: "Success",
+                response: tempArr,
+              };
+              res.send(response);
+            }
+          })
+          .catch((err) => {
+            const response = {
+              status: "Error",
+              response: err,
+            };
+            res.send(response);
+          });
       });
     })
     .catch((err) => {
@@ -146,4 +184,5 @@ module.exports = {
   readFactory,
   deleteFactory,
   update,
+  readAllFactoryEmployee,
 };

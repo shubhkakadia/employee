@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchUsers } from "../state/actions/userList";
+import { userLogin } from "../state/actions/userLogin";
 import "./landingPage.css";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../landingPage/loading";
@@ -9,8 +9,8 @@ export default function LandingPage() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const isLoading = useSelector((state) => state.userList.load);
-  const loggedInUser = useSelector((state) => state.userList.data);
+  const isLoading = useSelector((state) => state.loggedInUser.load);
+  const loggedInUser = useSelector((state) => state.loggedInUser.data);
   const navigate = useNavigate();
 
   function clear() {
@@ -29,9 +29,10 @@ export default function LandingPage() {
       Email: email,
       Password: password,
     };
-    dispatch(fetchUsers(userObj));
-
+    dispatch(userLogin(userObj));
+    navigate("/dashboard");
     clear();
+    // redirect();
   }
 
   function redirect() {

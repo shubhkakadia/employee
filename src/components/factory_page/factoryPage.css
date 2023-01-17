@@ -25,7 +25,7 @@
   justify-content: center;
   width: 80vw;
   height: 80vh;
-  padding-top: 1%;
+  padding-top: 2.5%;
 }
 
 .actionBtn {
@@ -47,35 +47,43 @@
 }
 
 .heading {
-  width: 54vw;
+  width: 75vw;
   height: 9vh;
   display: flex;
   flex-direction: column;
   padding-left: 3%;
+  padding-top: 0.5%;
   color: white;
 }
 
+#heading2 {
+  display: flex;
+  align-items: center;
+}
+
 .headingBtn {
-  padding-top: 1%;
   display: flex;
 }
 
-.buttons{
-  width: 27vw;
+.factoryActions {
+  padding-left: 3%;
+}
+
+.buttons {
   height: 10vh;
   display: flex;
   align-items: center;
-  float: right;
-  justify-content: center;
+  margin-left: 1%;
+}
+
+.addBtn {
+  height: 10vh;
+  display: flex;
   margin-left: auto;
+  align-items: center;
 }
 
-.addBtn{
-  padding-right: 3.25%;
-  float: right;
-}
-
-.editForm{
+.editForm {
   padding-top: 1%;
   position: absolute;
   margin-left: 15%;

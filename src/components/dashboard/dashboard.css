@@ -4,3 +4,60 @@
   background-image: url("../../assets/forest2.jpg");
   background-size: cover;
 }
+
+.right {
+  /* width: 87vw; */
+  height: 95vh;
+}
+
+.dashboardContent {
+  width: 79vw;
+  height: 95vh;
+  position: relative;
+}
+
+.block1 {
+  display: flex;
+  width: 20vw;
+  height: 17vh;
+  justify-content: center;
+  flex-direction: column;
+  color: black;
+  padding-left: 5%;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  margin: 20%;
+}
+
+.block2 {
+  display: flex;
+  width: 20vw;
+  height: 15vh;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  margin: 20%;
+}
+
+.contentLeft {
+  float: left;
+}
+.title {
+  font-weight: 500;
+  width: 30vw;
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5vw;
+}
+.block3 {
+  float: right;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  width: 30vw;
+  height: 37vw;
+  margin: 5%;
+}

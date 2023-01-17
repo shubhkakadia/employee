@@ -5,24 +5,23 @@ export const editFactory = (data) => (dispatch) => {
   dispatch(load());
 
   var config = {
-    method: 'put',
-    url: 'http://localhost:5000/factory/update',
-    headers: { 
-      'Content-Type': 'application/json'
+    method: "put",
+    url: "http://localhost:5000/factory/update",
+    headers: {
+      "Content-Type": "application/json",
     },
-    data : data
+    data: data,
   };
-  
+
   axios(config)
-  .then(function (response) {
-    console.log(response.data);
-    dispatch(success(response.data.response));
-  })
-  .catch(function (err) {
-    console.log(err);
-    dispatch(error(err))
-  });
-  
+    .then(function (response) {
+      console.log(response.data);
+      dispatch(success(response.data.response));
+    })
+    .catch(function (err) {
+      console.log(err);
+      dispatch(error(err));
+    });
 };
 
 export const load = () => ({

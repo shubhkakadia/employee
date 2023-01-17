@@ -98,7 +98,7 @@ export default function AddFactoryForm() {
       };
     }
   }
-  
+
   return (
     <div className="homeBody">
       <div className="left">

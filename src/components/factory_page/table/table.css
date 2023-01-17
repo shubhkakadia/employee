@@ -1,8 +1,8 @@
 .tableContent {
   padding-left: 1%;
-  padding-top: 1%;
+  padding-top: 0.5%;
   padding-right: 1%;
-  padding-bottom: 1px;
+  padding-bottom: 0.5%;
   width: 75vw;
   background-color: rgba(255, 255, 255, 0.75);
   border-radius: 10px;
@@ -17,4 +17,24 @@
 
 .employeeImg {
   border-radius: 50px;
+}
+
+.searchBar {
+  width: 85%;
+  height: 8vh;
+  display: inline-block;
+}
+
+.filterToggle {
+  position: absolute;
+  width: 10%;
+  height: 8vh;
+  display: inline-block;
+}
+
+.filterToggle2 {
+  height: 8vh;
+  display: flex;
+  margin-left: 10%;
+  align-items: center;
 }

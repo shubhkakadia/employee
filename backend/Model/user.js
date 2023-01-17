@@ -20,5 +20,8 @@ const userSchema = new mongoose.Schema({
     data: Buffer,
     type: String,
   },
+  Token: {
+    type: String,
+  },
 });
 module.exports = mongoose.model("userdatas", userSchema);

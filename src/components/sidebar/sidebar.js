@@ -2,19 +2,23 @@ import { useDispatch, useSelector } from "react-redux";
 import Factory from "../factory/factory";
 import altImg from "../../assets/user_default.png";
 import "./sidebar.css";
-import { loggedOut } from "../state/actions/userList";
+import { loggedOut } from "../state/actions/userLogin";
 import { Link, useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useEffect, useState } from "react";
 import { fetchFactories } from "../state/actions/factoryList";
 
 export default function Sidebar(props) {
-  const loggedInUser = useSelector((state) => state.userList.data);
+  const loggedInUser = useSelector((state) => state.loggedInUser.data);
   const factory_list = useSelector((state) => state.factoryList.data);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [factoryList, setFactoryList] = useState([]);
+
+  function settings() {
+    navigate("/settings");
+  }
 
   function logOut() {
     dispatch(loggedOut());
@@ -22,8 +26,7 @@ export default function Sidebar(props) {
   }
 
   useEffect(() => {
-    console.log(factory_list);
-    dispatch(fetchFactories)
+    dispatch(fetchFactories);
     if (factory_list) {
       setFactoryList(factory_list);
     }
@@ -45,7 +48,7 @@ export default function Sidebar(props) {
               />
             </div>
             <div className="iconName nm">
-              <div>{loggedInUser.Name}</div>
+              <div>{loggedInUser.FirstName}</div>
             </div>
           </Link>
 
@@ -54,9 +57,11 @@ export default function Sidebar(props) {
               <Dropdown.Toggle id="dropdown-basic"></Dropdown.Toggle>
 
               <Dropdown.Menu>
+                <Dropdown.Item onClick={() => settings()}>
+                  Settings
+                </Dropdown.Item>
                 <Dropdown.Item onClick={() => logOut()}>Log Out</Dropdown.Item>
-                {/* <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
+                {/* <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
               </Dropdown.Menu>
             </Dropdown>
           </div>

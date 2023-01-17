@@ -13,11 +13,13 @@ import { useNavigate } from "react-router-dom";
 import { PlusLg } from "react-bootstrap-icons";
 import { editFactory } from "../state/actions/editFactory";
 import { selectFactory } from "../state/actions/selectFactory";
+import { Dropdown } from "react-bootstrap";
 
 export default function FactoryPage() {
   const selected_factory = useSelector(
     (state) => state.selectedFactory.selected
   );
+  const loggedInUser = useSelector((state) => state.loggedInUser.data);
   const factoryListError = useSelector((state) => state.factoryList.error);
   const [fileLarge, setFileLarge] = useState(false);
   const factoryListLoading = useSelector((state) => state.factoryList.error);
@@ -44,7 +46,12 @@ export default function FactoryPage() {
     message: `Are you sure you want to remove ${selected_factory.Name} factory? This will delete all employees aswell.`,
   });
   const navigate = useNavigate();
-  // const factory = useParams();
+
+  useEffect(() => {
+    inValidLogin();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     dispatch(fetchEmployees(selected_factory.Name));
@@ -75,6 +82,12 @@ export default function FactoryPage() {
     }
   }, [removeItemToggle]);
 
+  function inValidLogin() {
+    if (loggedInUser === "") {
+      navigate("/");
+    }
+  }
+
   function edit_factory(e) {
     e.preventDefault();
     const edit_factory = {
@@ -97,6 +110,7 @@ export default function FactoryPage() {
       navigate("/" + fName.replace(/ +/g, "_"));
       dispatch(selectFactory(edit_factory));
     }
+    navigate("/");
   }
 
   function addBtnToggle() {
@@ -166,40 +180,38 @@ export default function FactoryPage() {
           <div className="headingBtn">
             {addEmployeeBtn && removeFactoryBtn && (
               <div className="heading">
-                <h1>{selected_factory.Name}</h1>
+                <div id="heading2">
+                  <h1 className="d-inline">{selected_factory.Name}</h1>
+                  <Dropdown className="dropdown d-inline factoryActions">
+                    <Dropdown.Toggle id="dropdown-basic"></Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      <Dropdown.Item
+                        onClick={() => setEditfactoryDetails(true)}
+                      >
+                        Edit Factory Details
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={() => setRemoveItemToggle(true)}>
+                        Remove Factory
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div>
                 <h5>{selected_factory.Address}</h5>
               </div>
             )}
             {addEmployeeBtn && removeFactoryBtn && (
-              <div className="buttons">
-                <div className="actionBtn">
-                  <button
-                    onClick={() => setEditfactoryDetails(true)}
-                    className="btn btn-primary"
-                  >
-                    Edit Factory Details
-                  </button>
-                </div>
-                <div className="actionBtn">
-                  <button
-                    onClick={() => setRemoveItemToggle(true)}
-                    className="btn btn-danger"
-                  >
-                    Remove Factory
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-          <div>
-            {addEmployeeBtn && removeFactoryBtn && !isLoading && (
-              <div className="addBtn">
-                <button
-                  onClick={() => addEmployee()}
-                  className="btn btn-success btn-sm"
-                >
-                  <PlusLg size={20} />
-                </button>
+              <div>
+                {addEmployeeBtn && removeFactoryBtn && !isLoading && (
+                  <div className="addBtn">
+                    <button
+                      onClick={() => addEmployee()}
+                      className="btn btn-success btn-sm"
+                    >
+                      <PlusLg size={20} />
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>

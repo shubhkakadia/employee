@@ -1,4 +1,4 @@
-import { USER_LIST } from "../types";
+import { USER } from "../types";
 
 const initialState = {
   load: false,
@@ -6,20 +6,20 @@ const initialState = {
   error: "",
 };
 
-export const userListReducer = (state = initialState, action) => {
+export const userLoginReducer = (state = initialState, action) => {
   switch (action.type) {
-    case USER_LIST.load:
+    case USER.load:
       return {
         ...state,
         load: true,
       };
-    case USER_LIST.success:
+    case USER.success:
       return {
         ...state,
         data: action.payload,
         load: false,
       };
-    case USER_LIST.error:
+    case USER.error:
       return {
         ...state,
         error: action.payload,

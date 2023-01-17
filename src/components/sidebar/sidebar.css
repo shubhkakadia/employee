@@ -25,7 +25,7 @@
   justify-content: center;
 }
 
-.factoryList{
+.factoryList {
   height: 65vh;
   overflow: auto;
 }

@@ -9,6 +9,14 @@
   transition: 0.3s;
 }
 
+.roleDropDown {
+  width: 10vw;
+  height: 8vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .inline {
   display: inline-block;
   padding-top: 2%;
@@ -28,8 +36,10 @@
   justify-content: center;
 }
 
-.submitBtn {
+.ActionBtn {
   width: 10vw;
+  border-radius: 50px !important;
+  border-width: 0.3vh !important;
 }
 
 .ID {

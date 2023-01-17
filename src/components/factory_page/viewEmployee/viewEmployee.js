@@ -11,7 +11,7 @@ export default function ViewEmployee(props) {
       return employeeImg;
     }
   }
-  
+
   return (
     <div>
       <div className="content">
@@ -74,6 +74,11 @@ export default function ViewEmployee(props) {
               <div className="cardTxt">
                 <div className="inline fromTable lb">Address: </div>
                 <div className="inline fromTable">{props.props.Address}</div>
+              </div>
+
+              <div className="cardTxt">
+                <div className="inline fromTable lb">Role: </div>
+                <div className="inline fromTable">{props.props.RoleName}</div>
               </div>
 
               <div className="cardTxt">
