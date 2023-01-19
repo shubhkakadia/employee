@@ -103,7 +103,7 @@ const deleteRole = (req, res) => {
       res.send(response);
     });
 
-  Role.findOneAndRemove({ RoleName: req.params.roleName })
+  Role.findOneAndRemove({ RoleName: req.body.RoleName })
     .then((data) => {
       Role.find()
         .then((remainingData) => {

@@ -36,7 +36,6 @@ export default function Table(props) {
         arr.push(item);
       }
     });
-    console.log(arr);
     setDataArr(arr);
     setSearchedArr(arr);
   };
@@ -78,14 +77,12 @@ export default function Table(props) {
   useMemo(() => handleSearch(), [props.props, searchText]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useMemo(() => handleFilter(), [props.props, stillWorkingToggle]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useMemo(() => setCurrentPage(1), [dataArr]);
 
   const currentRecords = dataArr.slice(indexOfFirstRecord, indexOfLastRecord);
   const nPages = Math.ceil(dataArr.length / recordsPerPage);
   const pageNumbers = [...Array(nPages + 1).keys()].slice(1);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [dataArr]);
 
   useEffect(() => {
     if (!viewEmployeeToggle) {
@@ -94,8 +91,6 @@ export default function Table(props) {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewEmployeeToggle]);
-
-  useEffect(() => {}, [stillWorkingToggle]);
 
   const nextPage = () => {
     if (currentPage !== nPages) setCurrentPage(currentPage + 1);

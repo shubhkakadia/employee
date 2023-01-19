@@ -46,7 +46,7 @@
 }
 .title {
   font-weight: 500;
-  width: 30vw;
+  width: 25vw;
   height: 10vh;
   display: flex;
   justify-content: center;
@@ -57,7 +57,16 @@
   float: right;
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 15px;
-  width: 30vw;
-  height: 37vw;
+  width: 24vw;
+  height: 30vw;
+  margin: 5%;
+}
+
+.block4 {
+  float: right;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  width: 24vw;
+  height: 30vw;
   margin: 5%;
 }

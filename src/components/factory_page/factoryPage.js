@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEmployees } from "../state/actions/employeeList";
 import Sidebar from "../sidebar/sidebar";
@@ -19,7 +19,6 @@ export default function FactoryPage() {
   const selected_factory = useSelector(
     (state) => state.selectedFactory.selected
   );
-  const loggedInUser = useSelector((state) => state.loggedInUser.data);
   const factoryListError = useSelector((state) => state.factoryList.error);
   const [fileLarge, setFileLarge] = useState(false);
   const factoryListLoading = useSelector((state) => state.factoryList.error);
@@ -30,7 +29,6 @@ export default function FactoryPage() {
   const dispatch = useDispatch();
   const [formDialog, setFormDialog] = useState(false);
   const [addEmployeeBtn, setAddEmployeeBtn] = useState(true);
-  const [removeFactoryBtn, setRemoveFactoryBtn] = useState(true);
   const [employeeArr, setEmployeeArr] = useState([]);
   const [removeItemToggle, setRemoveItemToggle] = useState(false);
   const [parems, setParems] = useState({
@@ -46,14 +44,12 @@ export default function FactoryPage() {
     message: `Are you sure you want to remove ${selected_factory.Name} factory? This will delete all employees aswell.`,
   });
   const navigate = useNavigate();
+  useMemo(() => setEmployeeArr(employee_list), [employee_list]);
+  useMemo(() => addBtnToggle(formDialog), [formDialog]);
+  useMemo(() => removeBtnToggle(removeItemToggle), [removeItemToggle]);
 
   useEffect(() => {
-    inValidLogin();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
+    console.log("first")
     dispatch(fetchEmployees(selected_factory.Name));
     setParems({
       factory: selected_factory.Name,
@@ -62,31 +58,6 @@ export default function FactoryPage() {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected_factory, employeeAllArray]);
-
-  useEffect(() => {
-    setEmployeeArr(employee_list);
-  }, [employee_list]);
-
-  useEffect(() => {
-    addBtnToggle();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formDialog]);
-
-  useEffect(() => {
-    if (removeItemToggle) {
-      setAddEmployeeBtn(false);
-      setRemoveFactoryBtn(false);
-    } else {
-      setAddEmployeeBtn(true);
-      setRemoveFactoryBtn(true);
-    }
-  }, [removeItemToggle]);
-
-  function inValidLogin() {
-    if (loggedInUser === "") {
-      navigate("/");
-    }
-  }
 
   function edit_factory(e) {
     e.preventDefault();
@@ -113,7 +84,15 @@ export default function FactoryPage() {
     navigate("/");
   }
 
-  function addBtnToggle() {
+  function removeBtnToggle(removeItemToggle){
+    if (removeItemToggle) {
+      setAddEmployeeBtn(false);
+    } else {
+      setAddEmployeeBtn(true);
+    }
+  }
+
+  function addBtnToggle(formDialog) {
     if (formDialog === false) {
       setAddEmployeeBtn(true);
     } else {
@@ -178,7 +157,7 @@ export default function FactoryPage() {
         </div>
         <div className="right">
           <div className="headingBtn">
-            {addEmployeeBtn && removeFactoryBtn && (
+            {addEmployeeBtn && (
               <div className="heading">
                 <div id="heading2">
                   <h1 className="d-inline">{selected_factory.Name}</h1>
@@ -200,9 +179,9 @@ export default function FactoryPage() {
                 <h5>{selected_factory.Address}</h5>
               </div>
             )}
-            {addEmployeeBtn && removeFactoryBtn && (
+            {addEmployeeBtn && (
               <div>
-                {addEmployeeBtn && removeFactoryBtn && !isLoading && (
+                {addEmployeeBtn && !isLoading && (
                   <div className="addBtn">
                     <button
                       onClick={() => addEmployee()}

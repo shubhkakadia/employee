@@ -7,6 +7,6 @@ router.use(bodyparser.json());
 router.post("/create", create);
 router.get("/get", read);
 router.put("/update", updateRole);
-router.post("/delete/", deleteRole);
+router.post("/delete", deleteRole);
 
 module.exports = router;

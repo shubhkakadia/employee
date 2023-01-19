@@ -1,13 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { fetchEmployeesAll } from "../state/actions/employeeListAll";
-import { fetchFactories } from "../state/actions/factoryList";
 import "./dashboard.css";
 import Sidebar from "../sidebar/sidebar";
 import { fetchAllFactoryEmployee } from "../state/actions/readAllFactoryEmployee";
 import { Doughnut } from "react-chartjs-2";
 import { Tooltip, Title, ArcElement, Legend, Chart, Colors } from "chart.js";
+import { fetchRoleData } from "../state/actions/roleList";
 
 export default function Home() {
   const loggedInUser = useSelector((state) => state.loggedInUser.data);
@@ -20,7 +18,6 @@ export default function Home() {
   );
   const [empCount, setEmpCount] = useState([]);
   const [factorylabel, setFactorylabel] = useState([]);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -50,17 +47,10 @@ export default function Home() {
   }, [date]);
 
   useEffect(() => {
-    inValidLogin();
-    dispatch(fetchEmployeesAll());
-    dispatch(fetchFactories());
     dispatch(fetchAllFactoryEmployee());
+    dispatch(fetchRoleData());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // useEffect(() => {
-  //   handlePieChart();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [factoryList]);
 
   const options = {
     plugins: {
@@ -94,12 +84,6 @@ export default function Home() {
     setFactorylabel(factorylabel);
   }
 
-  function inValidLogin() {
-    if (loggedInUser === "") {
-      navigate("/");
-    }
-  }
-
   return (
     <>
       <div id="homeBody" className="homeBody">
@@ -119,10 +103,18 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="block3">
-              <div className="title">Employee Distribution</div>
-              <Doughnut data={data} options={options} />
+            <div className="d-inline">
+              <div className="block3">
+                <div className="title">Employee Distribution</div>
+                <Doughnut data={data} options={options} />
+              </div>
             </div>
+            {/* <div className="d-inline">
+              <div className="block4 d-inline">
+                <div className="title">Salary Distribution</div>
+                <Doughnut data={data} options={options} />
+              </div>
+            </div> */}
           </div>
         </div>
       </div>

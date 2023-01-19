@@ -6,6 +6,7 @@ import Dashboard from "./components/dashboard/dashboard";
 import LandingPage from "./components/landingPage/landingPage";
 import UserSettings from "./components/userSettings/userSettings";
 import ProtectedRoutes from "./ProtectedRoutes";
+import AppSettings from "./components/appSettings/appSettings";
 
 function App() {
   return (
@@ -48,10 +49,18 @@ function App() {
             }
           />
           <Route
-            path="/settings"
+            path="/usersettings"
             element={
               <ProtectedRoutes>
                 <UserSettings />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/appsettings"
+            element={
+              <ProtectedRoutes>
+                <AppSettings />
               </ProtectedRoutes>
             }
           />

@@ -32,6 +32,12 @@ const EMPLOYEE_LIST_ALL = {
   error: "emloyee_all_error",
 };
 
+const ROLE_DATA = {
+  load: "role_data_load",
+  success: "role_data_success",
+  error: "role_data_error",
+};
+
 export {
   USER,
   FACTORY_LIST,
@@ -39,4 +45,5 @@ export {
   EMPLOYEE_LIST,
   EMPLOYEE_LIST_ALL,
   ALL_FACTORY_EMPLOYEE,
+  ROLE_DATA,
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createEmployee } from "../../state/actions/createEmployee";
 import "./addUserForm.css";
 import moment from "moment";
@@ -30,7 +30,7 @@ export default function AddUserForm(props) {
   const [role, setRole] = useState("Choose Role");
   const dispatch = useDispatch();
   const d = new Date();
-
+  const roleData = useSelector((state) => state.roleData.data);
   useEffect(() => {
     setFactory(props.props.factory);
     generateID();
@@ -95,7 +95,12 @@ export default function AddUserForm(props) {
     setBankName(employee.BankName);
     setIFSC(employee.IFSC);
     setNote(employee.Note);
-    setRole(employee.Role);
+    if (!employee.RoleName){
+      setRole("Choose Role");
+    }
+    else{
+      setRole(employee.RoleName);
+    }
   }
 
   function employeeData(e) {
@@ -485,12 +490,19 @@ export default function AddUserForm(props) {
                       <Dropdown.Item onClick={() => setRole("Choose Role")}>
                         Choose Role
                       </Dropdown.Item>
-                      <Dropdown.Item onClick={() => setRole("Supervisor")}>
+                      {roleData.map((item) => {
+                        return (
+                          <Dropdown.Item onClick={() => setRole(item.RoleName)}>
+                            {item.RoleName}
+                          </Dropdown.Item>
+                        );
+                      })}
+                      {/* <Dropdown.Item onClick={() => setRole("Supervisor")}>
                         Supervisor
                       </Dropdown.Item>
                       <Dropdown.Item onClick={() => setRole("Manager")}>
                         Manager
-                      </Dropdown.Item>
+                      </Dropdown.Item> */}
                     </Dropdown.Menu>
                   </Dropdown>
                 </div>

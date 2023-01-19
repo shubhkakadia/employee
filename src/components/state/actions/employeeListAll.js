@@ -11,7 +11,7 @@ export const fetchEmployeesAll = () => (dispatch) => {
   axios
     .request(options)
     .then(function (response) {
-      // console.log(response.data);
+      console.log(response.data);
       dispatch(success(response.data.response));
     })
     .catch(function (err) {

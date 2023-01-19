@@ -16,10 +16,6 @@ export default function Sidebar(props) {
 
   const [factoryList, setFactoryList] = useState([]);
 
-  function settings() {
-    navigate("/settings");
-  }
-
   function logOut() {
     dispatch(loggedOut());
     navigate("/");
@@ -57,8 +53,11 @@ export default function Sidebar(props) {
               <Dropdown.Toggle id="dropdown-basic"></Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <Dropdown.Item onClick={() => settings()}>
-                  Settings
+                <Dropdown.Item onClick={() => navigate("/appsettings")}>
+                  Application Settings
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => navigate("/usersettings")}>
+                  User Settings
                 </Dropdown.Item>
                 <Dropdown.Item onClick={() => logOut()}>Log Out</Dropdown.Item>
                 {/* <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
