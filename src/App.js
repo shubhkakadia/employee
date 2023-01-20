@@ -7,6 +7,7 @@ import LandingPage from "./components/landingPage/landingPage";
 import UserSettings from "./components/userSettings/userSettings";
 import ProtectedRoutes from "./ProtectedRoutes";
 import AppSettings from "./components/appSettings/appSettings";
+import EmployeeAttendance from "./components/employeeAttendance/employeeAttendance";
 
 function App() {
   return (
@@ -53,6 +54,14 @@ function App() {
             element={
               <ProtectedRoutes>
                 <UserSettings />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/:factory/:ID"
+            element={
+              <ProtectedRoutes>
+                <EmployeeAttendance />
               </ProtectedRoutes>
             }
           />

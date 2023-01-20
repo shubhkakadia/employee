@@ -2,14 +2,17 @@
   padding-left: 1%;
   padding-top: 0.5%;
   padding-right: 1%;
-  padding-bottom: 0.5%;
+  padding-bottom: 0.05vh;
+  /* margin-bottom: 0.5; */
   width: 75vw;
   background-color: rgba(255, 255, 255, 0.75);
   border-radius: 10px;
 }
 
 .pagination {
+  /* display: flex; */
   justify-content: center;
+  /* align-items: center; */
 }
 .icon {
   cursor: pointer;
@@ -21,7 +24,7 @@
 
 .searchBar {
   width: 85%;
-  height: 8vh;
+  height: 7vh;
   display: inline-block;
 }
 
@@ -37,4 +40,10 @@
   display: flex;
   margin-left: 10%;
   align-items: center;
+}
+
+.savePunch{
+  position: absolute;
+  left: 85%;
+  top: 2.5%;
 }

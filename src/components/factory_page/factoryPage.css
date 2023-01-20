@@ -24,8 +24,8 @@
   display: flex;
   justify-content: center;
   width: 80vw;
-  height: 80vh;
-  padding-top: 2.5%;
+  /* height: 77vh; */
+  /* padding-top: 2.5%; */
 }
 
 .actionBtn {
@@ -48,7 +48,7 @@
 
 .heading {
   width: 75vw;
-  height: 9vh;
+  /* height: 10vh; */
   display: flex;
   flex-direction: column;
   padding-left: 3%;

@@ -6,6 +6,7 @@ import { fetchAllFactoryEmployee } from "../state/actions/readAllFactoryEmployee
 import { Doughnut } from "react-chartjs-2";
 import { Tooltip, Title, ArcElement, Legend, Chart, Colors } from "chart.js";
 import { fetchRoleData } from "../state/actions/roleList";
+import { fetchEmployeesAll } from "../state/actions/employeeListAll";
 
 export default function Home() {
   const loggedInUser = useSelector((state) => state.loggedInUser.data);
@@ -39,7 +40,7 @@ export default function Home() {
       setTimeout(() => {
         setEmpCounter(empCounter + 1);
       }, counterSpeed);
-      if (empCounter === Math.round((employeeAllArray.length / 100) * 75)) {
+      if (empCounter === Math.round((employeeAllArray.length / 100) *80)) {
         setCounterSpeed(400);
       }
     }
@@ -49,6 +50,7 @@ export default function Home() {
   useEffect(() => {
     dispatch(fetchAllFactoryEmployee());
     dispatch(fetchRoleData());
+    dispatch(fetchEmployeesAll());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

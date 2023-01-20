@@ -3,6 +3,8 @@ import ViewEmployee from "../viewEmployee/viewEmployee";
 import "./table.css";
 import employeeImg from "../../../assets/user_default.png";
 import { Dropdown } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { selectEmployee } from "../../state/actions/selectedEmployee";
 
 export default function Table(props) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,6 +17,9 @@ export default function Table(props) {
   const [dataArr, setDataArr] = useState(props.props);
   const [stillWorkingArr, setStillWorkingArr] = useState([]);
   const [searchedArr, setSearchedArr] = useState([]);
+  const [punchedEmployeeList, setPunchedEmployeeList] = useState([]);
+  const dispatch = useDispatch();
+
   const handleSearch = () => {
     let arr = [];
     let searchArr = [];
@@ -102,7 +107,26 @@ export default function Table(props) {
 
   function handleViewEmployee(item) {
     setViewEmployeeToggle(item);
+    dispatch(selectEmployee(item));
     props.onView();
+  }
+
+  function savePunchIns() {
+    console.log("save");
+    console.log(punchedEmployeeList);
+  }
+
+  function handleRemovalPunchIn(ID) {
+    // console.log(punchedEmployeeList);
+    const temp = punchedEmployeeList;
+    const index = temp.indexOf(ID);
+    if (index > 0) {
+      temp.splice(index, 1);
+      console.log("temp", temp);
+    }
+    console.log(punchedEmployeeList);
+    // setPunchedEmployeeList(temp);
+    return temp;
   }
 
   function handle_photo(item) {
@@ -191,11 +215,21 @@ export default function Table(props) {
                           alt=""
                           className="employeeImg"
                         />{" "}
-                        {item.FirstName}
+                        {item.FirstName.length > 10
+                          ? item.FirstName.substring(0, 10) + "..."
+                          : item.FirstName}
                       </td>
-                      <td>{item.LastName}</td>
+                      <td>
+                        {item.LastName.length > 10
+                          ? item.LastName.substring(0, 10) + "..."
+                          : item.LastName}
+                      </td>
                       <td>{item.PhoneNo}</td>
-                      <td>{item.Address}</td>
+                      <td>
+                        {item.Address.length > 10
+                          ? item.Address.substring(0, 10) + "..."
+                          : item.Address}
+                      </td>
                       <td>
                         <i
                           onClick={() => handleViewEmployee(item)}
@@ -216,17 +250,63 @@ export default function Table(props) {
                           <i className="bi bi-trash icon"></i>
                         </button>
                       </td>
+                      <td>
+                        {punchedEmployeeList.includes(item.ID) ? (
+                          <button
+                            className="btn btn-success btn-sm"
+                            onClick={() => {
+                              setPunchedEmployeeList(
+                                handleRemovalPunchIn(item.ID)
+                              );
+                              // handleRemovalPunchIn(item.ID);
+                            }}
+                          >
+                            selected
+                          </button>
+                        ) : (
+                          <button
+                            className="btn btn-primary btn-sm"
+                            onClick={() => {
+                              setPunchedEmployeeList([
+                                ...punchedEmployeeList,
+                                item.ID,
+                              ]);
+                            }}
+                          >
+                            punch in
+                          </button>
+                        )}
+                        {/* <button
+                          className="btn btn-primary btn-sm"
+                          onClick={() => {
+                            setPunchedEmployeeList([
+                              ...punchedEmployeeList,
+                              item.ID,
+                            ]);
+                          }}
+                        >
+                          punch in
+                        </button> */}
+                      </td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
           ) : (
-            <div>No Search Results</div>
+            <div className="p-3">No Search Results</div>
           )}
 
-          {nPages > 1 ? (
-            <nav aria-label="Page navigation example">
+          <nav aria-label="Page navigation example">
+            <div className="savePunch">
+              <button
+                className="btn btn-success"
+                onClick={() => savePunchIns()}
+              >
+                Save Punch
+              </button>
+            </div>
+            {nPages > 1 ? (
               <ul className="pagination">
                 <li className="page-item">
                   <div
@@ -262,10 +342,10 @@ export default function Table(props) {
                   </div>
                 </li>
               </ul>
-            </nav>
-          ) : (
-            <></>
-          )}
+            ) : (
+              <></>
+            )}
+          </nav>
         </div>
       )}
     </>

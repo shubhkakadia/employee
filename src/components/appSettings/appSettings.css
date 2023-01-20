@@ -7,25 +7,21 @@
 }
 
 .roleName {
-  /* background-color: aqua; */
   width: 35%;
   height: 5vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* font-weight: bold; */
   font-size: 150%;
 }
 
 .dailyWages {
   width: 15%;
-  /* background-color: aquamarine; */
   display: flex;
   justify-content: center;
   align-items: center;
   height: 5vh;
   font-size: 150%;
-  /* font-weight: bold; */
 }
 
 .removeBtn {
@@ -33,11 +29,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: bisque; */
 }
 .roleListForm {
   height: 45vh;
-  /* background-color: black; */
   overflow: auto;
 }
 

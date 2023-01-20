@@ -19,6 +19,9 @@ const ALL_FACTORY_EMPLOYEE = {
 const SELECTED_FACTORY = {
   selected: "selected_factory",
 };
+const SELECTED_EMPLOYEE = {
+  selected: "selected_employee",
+};
 
 const EMPLOYEE_LIST = {
   load: "employee_load",
@@ -46,4 +49,5 @@ export {
   EMPLOYEE_LIST_ALL,
   ALL_FACTORY_EMPLOYEE,
   ROLE_DATA,
+  SELECTED_EMPLOYEE
 };

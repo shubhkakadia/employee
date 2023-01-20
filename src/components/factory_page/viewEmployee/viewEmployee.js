@@ -2,8 +2,16 @@ import React from "react";
 import employeeImg from "../../../assets/user_default.png";
 import "./viewEmployee.css";
 import moment from "moment";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function ViewEmployee(props) {
+  const selected_employee = useSelector(
+    (state) => state.selectedEmployee.selected
+  );
+  const navigate = useNavigate();
+
+  console.log(selected_employee);
   function handle_photo() {
     if (props.props.Photo !== "") {
       return props.props.Photo;
@@ -34,8 +42,22 @@ export default function ViewEmployee(props) {
           </div>
 
           <div className="employeeDetailsCard">
-            <div className="closeBtn">
-              <div className="content shadow-lg">
+            <div>
+              <div className="d-inline p-3">
+                <button
+                  className="btn btn-primary"
+                  onClick={() =>
+                    navigate(
+                      `/${props.props.Factory.replace(/ +/g, "_")}/${
+                        props.props.ID
+                      }`
+                    )
+                  }
+                >
+                  View Attendance
+                </button>
+              </div>
+              <div className="closeBtn d-inline">
                 <button
                   to="/"
                   className="btn btn-danger"

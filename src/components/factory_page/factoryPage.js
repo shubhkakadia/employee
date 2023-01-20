@@ -160,7 +160,7 @@ export default function FactoryPage() {
             {addEmployeeBtn && (
               <div className="heading">
                 <div id="heading2">
-                  <h1 className="d-inline">{selected_factory.Name}</h1>
+                  <h3 className="d-inline">{selected_factory.Name}</h3>
                   <Dropdown className="dropdown d-inline factoryActions">
                     <Dropdown.Toggle id="dropdown-basic"></Dropdown.Toggle>
 
@@ -176,7 +176,7 @@ export default function FactoryPage() {
                     </Dropdown.Menu>
                   </Dropdown>
                 </div>
-                <h5>{selected_factory.Address}</h5>
+                <h6>{selected_factory.Address}</h6>
               </div>
             )}
             {addEmployeeBtn && (

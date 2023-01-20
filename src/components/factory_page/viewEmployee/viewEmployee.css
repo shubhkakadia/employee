@@ -73,9 +73,10 @@
 }
 
 .closeBtn {
+  /* width: 10vw; */
   padding: 0px 5% 2% 0;
-  display: flex;
-  justify-content: flex-end;
+  /* display: flex; */
+  float: right;
 }
 
 .cardTxt {

@@ -30,9 +30,7 @@ export default function LandingPage() {
       Password: password,
     };
     dispatch(userLogin(userObj));
-    navigate("/dashboard");
     clear();
-    // redirect();
   }
 
   function redirect() {
