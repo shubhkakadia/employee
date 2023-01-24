@@ -1,7 +1,10 @@
 import { combineReducers } from "redux";
+import { dailyAttendanceReducer } from "./dailyAttendance";
+import { employeeAttendanceHistory } from "./employeeAttendanceHistory";
 import { employeeListReducer } from "./employeeList";
 import { employeeListAllReducer } from "./employeeListAll";
 import { factoryListReducer } from "./factoryList";
+import { monthlyAttendanceReducer } from "./monthlyAttendance";
 import { readAllFactoryEmployeeReducer } from "./readAllFactoryEmployee";
 import { roleDataReducer } from "./roleList";
 import { selectedEmployeeReducer } from "./selectedEmployee";
@@ -17,6 +20,9 @@ const reducers = combineReducers({
   employeeListAll: employeeListAllReducer,
   allFactoryEmployee: readAllFactoryEmployeeReducer,
   roleData: roleDataReducer,
+  dailyAttendance: dailyAttendanceReducer,
+  employeeAttendaceHistory: employeeAttendanceHistory,
+  monthlyAttendance: monthlyAttendanceReducer,
 });
 
 export default reducers;

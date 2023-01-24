@@ -2,18 +2,93 @@ const Attendance = require("../Model/attendance");
 
 const create = (req, res) => {
   // Create new entry every day.
-  let Date = req.body.date;
+  let date = req.body.date;
   let EmployeeList = req.body.EmployeeList;
+  let Factory = req.body.Factory;
+  // let Shift = req.body.Shift;
 
   const newAttendance = Attendance({
-    Date,
+    date,
     EmployeeList,
+    // Shift
+    Factory,
   });
 
   newAttendance
     .save()
     .then((data) => {
       console.log("Create Attendance (Success)");
+      const response = {
+        status: "Success",
+        response: data,
+      };
+      res.send(response);
+    })
+    .catch((err) => {
+      const response = {
+        status: "Error",
+        response: err,
+      };
+      res.send(response);
+    });
+};
+
+const update = (req, res) => {
+  // const startDate = new Date(`${req.body.date} 00:00:00`);
+  // const endDate = new Date(`${req.body.date} 23:59:59`);
+  Attendance.findOneAndUpdate(
+    {
+      date: new Date(req.body.date),
+      Factory: req.body.Factory,
+    },
+    { EmployeeList: req.body.EmployeeList }
+  )
+    .then((data) => {
+      console.log("Update Attendance (Success)");
+      getByFactoryAndDate(req, res);
+    })
+    .catch((err) => {
+      const response = {
+        status: "Error",
+        response: err,
+      };
+      res.send(response);
+    });
+};
+
+const getByFactoryAndDate = (req, res) => {
+  const startDate = new Date(`${req.body.date} 00:00:00`);
+  const endDate = new Date(`${req.body.date} 23:59:59`);
+  Attendance.find()
+    .where({
+      Factory: req.body.Factory,
+      createdAt: {
+        $gte: startDate,
+        $lte: endDate,
+      },
+    })
+    .then((data) => {
+      console.log("Read Attendance by Factory and Date (Success)");
+      const response = {
+        status: "Success",
+        response: data[0],
+      };
+      res.send(response);
+    })
+    .catch((err) => {
+      const response = {
+        status: "Error",
+        response: err,
+      };
+      res.send(response);
+    });
+};
+
+const getByFactory = (req, res) => {
+  Attendance.find()
+    .where({ Factory: req.params.factory })
+    .then((data) => {
+      console.log("Read Attendance by Factory(Success)");
       const response = {
         status: "Success",
         response: data,
@@ -52,8 +127,15 @@ const get = (req, res) => {
 const getDate = (req, res) => {
   // Fetch Data of Date from Body/Params.
   // Req: Date, Month, Year
+  const startDate = new Date(`${req.body.date} 00:00:00`);
+  const endDate = new Date(`${req.body.date} 23:59:59`);
 
-  Attendance.findOne({ Date: new Date(req.body.date) })
+  Attendance.findOne({
+    createdAt: {
+      $gte: startDate,
+      $lte: endDate,
+    },
+  })
     .then((data) => {
       console.log("Read Attendance By Date (Success)");
       const response = {
@@ -77,8 +159,10 @@ const getMonth = (req, res) => {
   const startDate = new Date(`${req.body.year}-${req.body.month}-01`);
   const endDate = new Date(`${req.body.year}-${req.body.month}-31`);
 
-  Attendance.find({
-    Date: {
+  Attendance.find()
+  .where({
+    Factory: req.body.Factory,
+    createdAt: {
       $gte: startDate,
       $lte: endDate,
     },
@@ -110,7 +194,7 @@ const getYear = (req, res) => {
   console.log("endDate", endDate);
 
   Attendance.find({
-    Date: {
+    createdAt: {
       $gte: startDate,
       $lte: endDate,
     },
@@ -137,16 +221,22 @@ const getEmployeeData = async (req, res) => {
   // Fetch All Attendance Data of Employee from Body/Params.
   // Req: Employee ID
   let dateArr = [];
-  console.log("ID", req.body.ID);
-  await Attendance.find()
+  Attendance.find({ EmployeeList: { $elemMatch: { ID: req.body.ID } } })
     .then((data) => {
-      console.log("data", data);
+      console.log("Read Employee Attendance (Success)");
       data.forEach((item) => {
-        console.log("date", item.Date);
-        if (item.EmployeeList.includes(req.body.ID)) {
-          dateArr.push(item.Date);
-        }
+        item.EmployeeList.forEach((employee) => {
+          if (employee.ID === req.body.ID) {
+            dateArr.push(employee);
+          }
+        });
+        // dateArr.push(moment(new Date(item.date)).format('YYYY-MM-DD'));
       });
+      const response = {
+        status: "Success",
+        response: dateArr,
+      };
+      res.send(response);
     })
     .catch((err) => {
       const response = {
@@ -155,15 +245,43 @@ const getEmployeeData = async (req, res) => {
       };
       res.send(response);
     });
+  // let dateArr = [];
+
+  // console.log("ID", req.body.ID);
+  // await Attendance.find()
+  //   .then((data) => {
+  //     console.log("data", data);
+  //     data.forEach((item) => {
+  //       console.log("date", item.date);
+  //       if (item.EmployeeList.includes(req.body.ID)) {
+  //         dateArr = [...dateArr, item.date]
+  //       }
+  //       if (item === data[data.length-1]){
+  //         const response = {
+  //           status: "Success",
+  //           response: dateArr,
+  //         };
+  //         res.send(response);
+  //         console.log("sent");
+  //       }
+  //     });
+  //   })
+  //   .catch((err) => {
+  //     const response = {
+  //       status: "Error",
+  //       response: err,
+  //     };
+  //     res.send(response);
+  //   });
 
   // console.log("Read All Dates with employee ID (Success)");
 
-  const response = {
-    status: "Success",
-    response: dateArr,
-  };
-  await res.send(response);
-  console.log("sent")
+  // const response = {
+  //   status: "Success",
+  //   response: dateArr,
+  // };
+  // await res.send(response);
+  // console.log("sent");
 };
 
 const addEmployeeDate = async (req, res) => {
@@ -221,7 +339,6 @@ const addEmployeeDate = async (req, res) => {
 };
 
 const removeEmployeeDate = async (req, res) => {
-
   req.body.DateArr.forEach((date) => {
     Attendance.findOne({ Date: new Date(date) }).then((data) => {
       console.log("data", data);
@@ -259,6 +376,9 @@ const removeEmployeeDate = async (req, res) => {
 
 module.exports = {
   create,
+  update,
+  getByFactoryAndDate,
+  getByFactory,
   get,
   getDate,
   getMonth,

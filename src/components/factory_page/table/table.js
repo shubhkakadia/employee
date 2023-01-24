@@ -3,22 +3,31 @@ import ViewEmployee from "../viewEmployee/viewEmployee";
 import "./table.css";
 import employeeImg from "../../../assets/user_default.png";
 import { Dropdown } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectEmployee } from "../../state/actions/selectedEmployee";
+import { createAttendance } from "../../state/actions/createAttendance";
+import { getDailyAttendanceOfFactory } from "../../state/actions/getDailyAttendance";
+import { updateDailyAttendance } from "../../state/actions/updateDailyAttendance";
+import moment from "moment";
 
 export default function Table(props) {
+  const dailyAttendance = useSelector((state) => state.dailyAttendance.data);
+  const selected_factory = useSelector(
+    (state) => state.selectedFactory.selected
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage] = useState(10);
   const [viewEmployeeToggle, setViewEmployeeToggle] = useState("");
   const [searchText, setSearchText] = useState("");
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const [stillWorkingToggle, setStillWorkingToggle] = useState("All");
+  const [stillWorkingToggle, setStillWorkingToggle] = useState("Still Working");
   const [dataArr, setDataArr] = useState(props.props);
   const [stillWorkingArr, setStillWorkingArr] = useState([]);
   const [searchedArr, setSearchedArr] = useState([]);
   const [punchedEmployeeList, setPunchedEmployeeList] = useState([]);
   const dispatch = useDispatch();
+  const date = new Date();
 
   const handleSearch = () => {
     let arr = [];
@@ -82,8 +91,6 @@ export default function Table(props) {
   useMemo(() => handleSearch(), [props.props, searchText]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useMemo(() => handleFilter(), [props.props, stillWorkingToggle]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useMemo(() => setCurrentPage(1), [dataArr]);
 
   const currentRecords = dataArr.slice(indexOfFirstRecord, indexOfLastRecord);
   const nPages = Math.ceil(dataArr.length / recordsPerPage);
@@ -97,6 +104,21 @@ export default function Table(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewEmployeeToggle]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+    setPunchedEmployeeList([]);
+    DailyAttendance(dataArr);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.props]);
+
+  useEffect(() => {
+    if (dailyAttendance?.EmployeeList?.length > 0) {
+      setPunchedEmployeeList(dailyAttendance?.EmployeeList);
+    } else {
+      setPunchedEmployeeList([]);
+    }
+  }, [dailyAttendance]);
+
   const nextPage = () => {
     if (currentPage !== nPages) setCurrentPage(currentPage + 1);
   };
@@ -105,6 +127,18 @@ export default function Table(props) {
     if (currentPage !== 1) setCurrentPage(currentPage - 1);
   };
 
+  async function DailyAttendance(dataArr) {
+    let month = date.getMonth() + 1;
+    if (month < 10) {
+      month = `0${month}`;
+    }
+    const params = {
+      date: `${date.getFullYear()}-${month}-${date.getDate()}`,
+      Factory: selected_factory.Name,
+    };
+    await dispatch(getDailyAttendanceOfFactory(params));
+  }
+
   function handleViewEmployee(item) {
     setViewEmployeeToggle(item);
     dispatch(selectEmployee(item));
@@ -112,20 +146,34 @@ export default function Table(props) {
   }
 
   function savePunchIns() {
-    console.log("save");
-    console.log(punchedEmployeeList);
+    let month = date.getMonth() + 1;
+    if (month < 10) {
+      month = `0${month}`;
+    }
+    const createNewAttendance = {
+      date: `${date.getFullYear()}-${month}-${date.getDate()}`,
+      EmployeeList: punchedEmployeeList,
+      Factory: dataArr[0]?.Factory,
+    };
+    console.log(createNewAttendance);
+    console.log(dailyAttendance);
+    if (dailyAttendance?.EmployeeList?.length > 0) {
+      console.log("update");
+      dispatch(updateDailyAttendance(createNewAttendance));
+    } else {
+      console.log("new");
+      dispatch(createAttendance(createNewAttendance));
+    }
   }
 
-  function handleRemovalPunchIn(ID) {
-    // console.log(punchedEmployeeList);
+  function handlePunchOut(ID) {
     const temp = punchedEmployeeList;
-    const index = temp.indexOf(ID);
-    if (index > 0) {
-      temp.splice(index, 1);
-      console.log("temp", temp);
+    const index = temp.findIndex((e) => e.ID === ID);
+    if (index > -1) {
+      temp[index].End = moment(new Date().getTime()).format(
+        "YYYY-MM-DD hh:mm:ss"
+      );
     }
-    console.log(punchedEmployeeList);
-    // setPunchedEmployeeList(temp);
     return temp;
   }
 
@@ -250,44 +298,52 @@ export default function Table(props) {
                           <i className="bi bi-trash icon"></i>
                         </button>
                       </td>
-                      <td>
-                        {punchedEmployeeList.includes(item.ID) ? (
-                          <button
-                            className="btn btn-success btn-sm"
-                            onClick={() => {
-                              setPunchedEmployeeList(
-                                handleRemovalPunchIn(item.ID)
-                              );
-                              // handleRemovalPunchIn(item.ID);
-                            }}
-                          >
-                            selected
-                          </button>
-                        ) : (
-                          <button
-                            className="btn btn-primary btn-sm"
-                            onClick={() => {
-                              setPunchedEmployeeList([
-                                ...punchedEmployeeList,
-                                item.ID,
-                              ]);
-                            }}
-                          >
-                            punch in
-                          </button>
-                        )}
-                        {/* <button
-                          className="btn btn-primary btn-sm"
-                          onClick={() => {
-                            setPunchedEmployeeList([
-                              ...punchedEmployeeList,
-                              item.ID,
-                            ]);
-                          }}
-                        >
-                          punch in
-                        </button> */}
-                      </td>
+                      {item.StillWorking === "Yes" &&
+                      stillWorkingToggle === "Still Working" ? (
+                        <td>
+                          {punchedEmployeeList.some(
+                            (e) =>
+                              e.ID === item.ID &&
+                              e.End ===
+                                moment(new Date().getTime()).format(
+                                  "YYYY-MM-DD 11:59:59"
+                                )
+                          ) ? (
+                            <button
+                              className="btn btn-warning btn-sm"
+                              onClick={() => {
+                                setPunchedEmployeeList([
+                                  ...handlePunchOut(item.ID),
+                                ]);
+                              }}
+                            >
+                              Punch Out
+                            </button>
+                          ) : (
+                            <button
+                              className="btn btn-success btn-sm"
+                              onClick={() => {
+                                setPunchedEmployeeList([
+                                  ...punchedEmployeeList,
+                                  {
+                                    ID: item.ID,
+                                    Start: moment(new Date().getTime()).format(
+                                      "YYYY-MM-DD hh:mm:ss"
+                                    ),
+                                    End: moment(new Date().getTime()).format(
+                                      "YYYY-MM-DD 11:59:59"
+                                    ),
+                                  },
+                                ]);
+                              }}
+                            >
+                              Punch In
+                            </button>
+                          )}
+                        </td>
+                      ) : (
+                        <></>
+                      )}
                     </tr>
                   );
                 })}

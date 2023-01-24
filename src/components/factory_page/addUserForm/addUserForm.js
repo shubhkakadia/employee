@@ -497,12 +497,6 @@ export default function AddUserForm(props) {
                           </Dropdown.Item>
                         );
                       })}
-                      {/* <Dropdown.Item onClick={() => setRole("Supervisor")}>
-                        Supervisor
-                      </Dropdown.Item>
-                      <Dropdown.Item onClick={() => setRole("Manager")}>
-                        Manager
-                      </Dropdown.Item> */}
                     </Dropdown.Menu>
                   </Dropdown>
                 </div>

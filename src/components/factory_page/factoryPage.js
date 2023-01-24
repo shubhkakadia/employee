@@ -14,19 +14,23 @@ import { PlusLg } from "react-bootstrap-icons";
 import { editFactory } from "../state/actions/editFactory";
 import { selectFactory } from "../state/actions/selectFactory";
 import { Dropdown } from "react-bootstrap";
+import { getMonthlyAttendance } from "../state/actions/getmonthlyAttedance";
 
 export default function FactoryPage() {
   const selected_factory = useSelector(
     (state) => state.selectedFactory.selected
   );
   const factoryListError = useSelector((state) => state.factoryList.error);
-  const [fileLarge, setFileLarge] = useState(false);
   const factoryListLoading = useSelector((state) => state.factoryList.error);
   const [editfactoryDetails, setEditfactoryDetails] = useState(false);
   const employeeAllArray = useSelector((state) => state.employeeListAll.data);
   const employee_list = useSelector((state) => state.employeeList.data);
   const isLoading = useSelector((state) => state.employeeList.load);
-  const dispatch = useDispatch();
+  const monthlyAttendance = useSelector(
+    (state) => state.monthlyAttendance.data
+  );
+
+  const [fileLarge, setFileLarge] = useState(false);
   const [formDialog, setFormDialog] = useState(false);
   const [addEmployeeBtn, setAddEmployeeBtn] = useState(true);
   const [employeeArr, setEmployeeArr] = useState([]);
@@ -43,14 +47,26 @@ export default function FactoryPage() {
   const [removeItemProps, setRemoveItemProps] = useState({
     message: `Are you sure you want to remove ${selected_factory.Name} factory? This will delete all employees aswell.`,
   });
+  const [monthlyAttendanceToggle, setMonthlyAttendanceToggle] = useState(true);
+  const [tableToggle, setTableToggle] = useState(true);
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const date = new Date();
+
   useMemo(() => setEmployeeArr(employee_list), [employee_list]);
   useMemo(() => addBtnToggle(formDialog), [formDialog]);
   useMemo(() => removeBtnToggle(removeItemToggle), [removeItemToggle]);
 
   useEffect(() => {
-    console.log("first")
     dispatch(fetchEmployees(selected_factory.Name));
+    dispatch(
+      getMonthlyAttendance({
+        month: date.getMonth() + 1,
+        year: date.getFullYear(),
+        Factory: selected_factory.Name,
+      })
+    );
     setParems({
       factory: selected_factory.Name,
       edit: "",
@@ -70,6 +86,7 @@ export default function FactoryPage() {
     };
 
     dispatch(editFactory(edit_factory));
+
     if (factoryListError !== "") {
       document.getElementById("Photo").classList.add("is-invalid");
       setFileLarge(true);
@@ -84,11 +101,20 @@ export default function FactoryPage() {
     navigate("/");
   }
 
-  function removeBtnToggle(removeItemToggle){
+  function removeBtnToggle(removeItemToggle) {
     if (removeItemToggle) {
       setAddEmployeeBtn(false);
     } else {
       setAddEmployeeBtn(true);
+    }
+  }
+
+  function monthlyAttendanceBtnToggle() {
+    console.log(monthlyAttendance);
+    if (tableToggle) {
+      setTableToggle(false);
+    } else {
+      setTableToggle(true);
     }
   }
 
@@ -179,9 +205,18 @@ export default function FactoryPage() {
                 <h6>{selected_factory.Address}</h6>
               </div>
             )}
-            {addEmployeeBtn && (
-              <div>
-                {addEmployeeBtn && !isLoading && (
+
+            <div>
+              {addEmployeeBtn && !isLoading && monthlyAttendanceToggle && (
+                <div>
+                  <div className="monthlyAttendance">
+                    <button
+                      className="btn btn-success"
+                      onClick={(e) => monthlyAttendanceBtnToggle(e)}
+                    >
+                      Monthly Attendance
+                    </button>
+                  </div>
                   <div className="addBtn">
                     <button
                       onClick={() => addEmployee()}
@@ -190,9 +225,9 @@ export default function FactoryPage() {
                       <PlusLg size={20} />
                     </button>
                   </div>
-                )}
-              </div>
-            )}
+                </div>
+              )}
+            </div>
           </div>
           {isLoading ? (
             <div className="employeeListLoader">
@@ -300,16 +335,20 @@ export default function FactoryPage() {
               />
             </div>
           ) : employeeArr.length > 0 ? (
-            <div className="employeeDataTable">
-              <div className="center">
-                <Table
-                  props={employeeArr}
-                  onEdit={(item) => editEmployee(item)}
-                  onClose={() => setAddEmployeeBtn(true)}
-                  onView={() => setAddEmployeeBtn(false)}
-                  onRemove={(employee) => handleRemoveEmployee(employee)}
-                />
-              </div>
+            <div>
+              {tableToggle && (
+                <div className="employeeDataTable">
+                  <div className="center">
+                    <Table
+                      props={employeeArr}
+                      onEdit={(item) => editEmployee(item)}
+                      onClose={() => setAddEmployeeBtn(true)}
+                      onView={() => setAddEmployeeBtn(false)}
+                      onRemove={(employee) => handleRemoveEmployee(employee)}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             <div className="noData">No Data Found!</div>

@@ -1,12 +1,20 @@
 const mongoose = require("mongoose");
-const attendanceSchema = new mongoose.Schema({
-  Date: {
-    type: Date,
-    required: true,
-    unique: true,
+const attendanceSchema = new mongoose.Schema(
+  {
+    date: {
+      type: Date,
+      required: true,
+    },
+    EmployeeList: {
+      type: Array,
+    },
+    Factory: {
+      type: String,
+      required: true,
+    },
   },
-  EmployeeList: {
-    type: Array,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 module.exports = mongoose.model("attendancedatas", attendanceSchema);

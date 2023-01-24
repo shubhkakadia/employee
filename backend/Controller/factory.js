@@ -1,5 +1,6 @@
 const Factory = require("../Model/factory");
 const Employee = require("../Model/employee");
+const Attendance = require("../Model/attendance");
 
 const create = (req, res) => {
   let ID = req.body.ID;
@@ -74,6 +75,13 @@ const readFactory = (req, res) => {
 };
 
 function deleteFactory(req, res) {
+  Attendance.deleteMany({ Factory: req.body.Name })
+    .then((data) => {
+      console.log("Data Deleted");
+    })
+    .catch((err) => {
+      console.log("err", err);
+    });
   Employee.deleteMany({ Factory: req.body.Name })
     .then((data) => {
       console.log("Data Deleted");
@@ -103,6 +111,16 @@ function deleteFactory(req, res) {
 }
 
 const update = (req, res) => {
+  Attendance.updateMany(
+    { Factory: req.body.OldName },
+    { Factory: req.body.Name }
+  )
+    .then((data) => {
+      console.log("Employee Data Updated");
+    })
+    .catch((err) => {
+      console.log("err", err);
+    });
   Employee.updateMany({ Factory: req.body.OldName }, { Factory: req.body.Name })
     .then((data) => {
       console.log("Employee Data Updated");

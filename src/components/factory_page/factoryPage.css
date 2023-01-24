@@ -93,3 +93,9 @@
   border-radius: 15px;
   background-color: rgba(225, 225, 225, 0.5);
 }
+
+.monthlyAttendance{
+  position: absolute;
+  left: 72%;
+  top: 2.5%;
+}

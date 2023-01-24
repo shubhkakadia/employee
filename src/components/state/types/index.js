@@ -41,6 +41,24 @@ const ROLE_DATA = {
   error: "role_data_error",
 };
 
+const DAILY_ATTENDANCE = {
+  load: "daily_attendance_load",
+  success: "daily_attendance_success",
+  error: "daily_attendance_error",
+};
+
+const EMPLOYEE_ATTENDANCE_HISTORY = {
+  load: "employee_attendance_history_load",
+  success: "employee_attendance_history_success",
+  error: "employee_attendance_history_error",
+};
+
+const MONTHLY_ATTENDANCE = {
+  load: "monthly_attendance_by_factory_load",
+  success: "monthly_attendance_by_factory_success",
+  error: "monthly_attendance_by_factory_error",
+};
+
 export {
   USER,
   FACTORY_LIST,
@@ -49,5 +67,8 @@ export {
   EMPLOYEE_LIST_ALL,
   ALL_FACTORY_EMPLOYEE,
   ROLE_DATA,
-  SELECTED_EMPLOYEE
+  SELECTED_EMPLOYEE,
+  DAILY_ATTENDANCE,
+  EMPLOYEE_ATTENDANCE_HISTORY,
+  MONTHLY_ATTENDANCE
 };
