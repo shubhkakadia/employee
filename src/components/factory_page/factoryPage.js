@@ -26,9 +26,6 @@ export default function FactoryPage() {
   const employeeAllArray = useSelector((state) => state.employeeListAll.data);
   const employee_list = useSelector((state) => state.employeeList.data);
   const isLoading = useSelector((state) => state.employeeList.load);
-  const monthlyAttendance = useSelector(
-    (state) => state.monthlyAttendance.data
-  );
 
   const [fileLarge, setFileLarge] = useState(false);
   const [formDialog, setFormDialog] = useState(false);
@@ -47,8 +44,6 @@ export default function FactoryPage() {
   const [removeItemProps, setRemoveItemProps] = useState({
     message: `Are you sure you want to remove ${selected_factory.Name} factory? This will delete all employees aswell.`,
   });
-  const [monthlyAttendanceToggle, setMonthlyAttendanceToggle] = useState(true);
-  const [tableToggle, setTableToggle] = useState(true);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -106,15 +101,6 @@ export default function FactoryPage() {
       setAddEmployeeBtn(false);
     } else {
       setAddEmployeeBtn(true);
-    }
-  }
-
-  function monthlyAttendanceBtnToggle() {
-    console.log(monthlyAttendance);
-    if (tableToggle) {
-      setTableToggle(false);
-    } else {
-      setTableToggle(true);
     }
   }
 
@@ -207,12 +193,19 @@ export default function FactoryPage() {
             )}
 
             <div>
-              {addEmployeeBtn && !isLoading && monthlyAttendanceToggle && (
+              {addEmployeeBtn && !isLoading && (
                 <div>
                   <div className="monthlyAttendance">
                     <button
                       className="btn btn-success"
-                      onClick={(e) => monthlyAttendanceBtnToggle(e)}
+                      onClick={(e) =>
+                        navigate(
+                          `/${selected_factory.Name.replace(
+                            / +/g,
+                            "_"
+                          )}/MonthlyAttendance`
+                        )
+                      }
                     >
                       Monthly Attendance
                     </button>
@@ -336,19 +329,17 @@ export default function FactoryPage() {
             </div>
           ) : employeeArr.length > 0 ? (
             <div>
-              {tableToggle && (
-                <div className="employeeDataTable">
-                  <div className="center">
-                    <Table
-                      props={employeeArr}
-                      onEdit={(item) => editEmployee(item)}
-                      onClose={() => setAddEmployeeBtn(true)}
-                      onView={() => setAddEmployeeBtn(false)}
-                      onRemove={(employee) => handleRemoveEmployee(employee)}
-                    />
-                  </div>
+              <div className="employeeDataTable">
+                <div className="center">
+                  <Table
+                    props={employeeArr}
+                    onEdit={(item) => editEmployee(item)}
+                    onClose={() => setAddEmployeeBtn(true)}
+                    onView={() => setAddEmployeeBtn(false)}
+                    onRemove={(employee) => handleRemoveEmployee(employee)}
+                  />
                 </div>
-              )}
+              </div>
             </div>
           ) : (
             <div className="noData">No Data Found!</div>

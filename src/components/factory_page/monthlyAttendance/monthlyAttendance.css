@@ -1,0 +1,46 @@
+.monthlyReport {
+  padding: 0.75%;
+  height: 85vh;
+  width: 80vw;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.day {
+  transform: rotateZ(90deg);
+  background: blue;
+  height: 13vh;
+}
+
+.tb {
+  overflow: auto;
+  height: 65vh;
+}
+
+.tb::-webkit-scrollbar {
+  display: none;
+}
+
+.year {
+  padding: 1%;
+}
+.monthSelector {
+  padding-top: 1%;
+  padding-left: 3%;
+}
+.downloadIcon {
+  cursor: pointer;
+  position: absolute;
+  top: 15%;
+  left: 95%;
+}
+
+.heading3 {
+  padding-left: 25%;
+  width: 50vw;
+}
+.stillWorkingToggle {
+  position: absolute;
+  top: 15.5%;
+  left: 35%;
+}

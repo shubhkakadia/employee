@@ -155,13 +155,9 @@ export default function Table(props) {
       EmployeeList: punchedEmployeeList,
       Factory: dataArr[0]?.Factory,
     };
-    console.log(createNewAttendance);
-    console.log(dailyAttendance);
     if (dailyAttendance?.EmployeeList?.length > 0) {
-      console.log("update");
       dispatch(updateDailyAttendance(createNewAttendance));
     } else {
-      console.log("new");
       dispatch(createAttendance(createNewAttendance));
     }
   }
@@ -173,6 +169,7 @@ export default function Table(props) {
       temp[index].End = moment(new Date().getTime()).format(
         "YYYY-MM-DD hh:mm:ss"
       );
+      temp[index].WorkType = "Half"
     }
     return temp;
   }
@@ -304,11 +301,22 @@ export default function Table(props) {
                           {punchedEmployeeList.some(
                             (e) =>
                               e.ID === item.ID &&
-                              e.End ===
+                              e.End !==
                                 moment(new Date().getTime()).format(
-                                  "YYYY-MM-DD 11:59:59"
+                                  "YYYY-MM-DD 23:59:59"
                                 )
                           ) ? (
+                            <div style={{ width: "65%" }}>
+                              Punched For Today
+                            </div>
+                          ) : punchedEmployeeList.some(
+                              (e) =>
+                                e.ID === item.ID &&
+                                e.End ===
+                                  moment(new Date().getTime()).format(
+                                    "YYYY-MM-DD 23:59:59"
+                                  )
+                            ) ? (
                             <button
                               className="btn btn-warning btn-sm"
                               onClick={() => {
@@ -331,8 +339,9 @@ export default function Table(props) {
                                       "YYYY-MM-DD hh:mm:ss"
                                     ),
                                     End: moment(new Date().getTime()).format(
-                                      "YYYY-MM-DD 11:59:59"
+                                      "YYYY-MM-DD 23:59:59"
                                     ),
+                                    WorkType: "Full"
                                   },
                                 ]);
                               }}

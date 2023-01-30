@@ -19,6 +19,8 @@ export default function Home() {
   );
   const [empCount, setEmpCount] = useState([]);
   const [factorylabel, setFactorylabel] = useState([]);
+  // const roles = useSelector((state) => state.roleData.data);
+  // const [roleList, setRoleList] = useState({});
   const dispatch = useDispatch();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -51,6 +53,7 @@ export default function Home() {
     dispatch(fetchAllFactoryEmployee());
     dispatch(fetchRoleData());
     dispatch(fetchEmployeesAll());
+    // salaryData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -62,19 +65,6 @@ export default function Home() {
     },
   };
 
-  // function colorPicker() {
-  //   const colorPallet = [];
-  //   factorylabel.forEach((item) => {
-  //     const r = Math.floor(Math.random() * 200);
-  //     const g = Math.floor(Math.random() * 200);
-  //     const b = Math.floor(Math.random() * 200);
-  //     const color = "rgba(" + r + ", " + g + ", " + b + "0.5)";
-  //     colorPallet.push(color);
-  //   })
-  //   console.log(colorPallet);
-  //   return colorPallet
-  // }
-
   function handlePieChart() {
     let factorylabel = [];
     let empCount = [];
@@ -85,6 +75,25 @@ export default function Home() {
     setEmpCount(empCount);
     setFactorylabel(factorylabel);
   }
+
+  // function salaryData (){
+  //   let roleList = []
+  //   let totalExp = 0
+  //   roles.forEach((role) => {
+  //     let name = role.RoleName
+  //     roleList.push()
+  //   })
+
+  //   console.log(roleList);
+  //   console.log(employeeAllArray);
+  //   employeeAllArray.forEach((emp) => {
+  //     if (roles.find((e) => e.RoleName === emp.RoleName)){
+
+  //     }
+  //   })
+  // }
+
+
 
   return (
     <>

@@ -1,0 +1,29 @@
+.prev-next-btn {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .calendar-table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .calendar-table th {
+    background-color: #f2f2f2;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .calendar-table td {
+    padding: 8px;
+  }
+  
+  .calendar-day {
+    background-color: #f2f2f2;
+  }
+  

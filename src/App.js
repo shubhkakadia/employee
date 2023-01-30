@@ -8,6 +8,7 @@ import UserSettings from "./components/userSettings/userSettings";
 import ProtectedRoutes from "./ProtectedRoutes";
 import AppSettings from "./components/appSettings/appSettings";
 import EmployeeAttendance from "./components/employeeAttendance/employeeAttendance";
+import MonthlyAttendance from "./components/factory_page/monthlyAttendance/monthlyAttendance";
 
 function App() {
   return (
@@ -62,6 +63,14 @@ function App() {
             element={
               <ProtectedRoutes>
                 <EmployeeAttendance />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/:factory/MonthlyAttendance"
+            element={
+              <ProtectedRoutes>
+                <MonthlyAttendance />
               </ProtectedRoutes>
             }
           />

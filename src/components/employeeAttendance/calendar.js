@@ -1,10 +1,9 @@
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import "./calendar.css";
 
 export default function Calendar(props) {
-  console.log("calprops", props);
   const [date, setDate] = useState(new Date());
   const month = date.getMonth();
   const year = date.getFullYear();
@@ -12,6 +11,14 @@ export default function Calendar(props) {
   const [moreInfoToggle, setMoreInfoToggle] = useState(false);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const [firstHalf, setFirstHalf] = useState(0);
+  const [secondHalf, setSecondHalf] = useState(0);
+
+  useEffect(() => {
+    calculate_salary();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.props, date]);
 
   const monthNames = [
     "January",
@@ -56,14 +63,11 @@ export default function Calendar(props) {
     let obj = props.props.attendanceHistory?.find(
       (e) => moment(e.Start).format("YYYY-M-DD") === comparedate
     );
+
     if (obj) {
       setStartTime(obj.Start);
-      if (obj.End !== "") {
-        setEndTime(obj.End);
-      }
+      setEndTime(obj.End);
     }
-
-    console.log(data);
   };
 
   const nextYear = () => {
@@ -77,6 +81,30 @@ export default function Calendar(props) {
   const changeMonth = (monthIndex) => {
     setDate(new Date(year, monthIndex, 1));
   };
+
+  function calculate_salary() {
+    console.log(props.props);
+    let firstHalf = moment(`${year}-${month + 1}-01`).format("YYYY-M-DD");
+    let secondHalf = moment(`${year}-${month + 1}-16`).format("YYYY-M-DD");
+    let lastDate = moment(`${year}-${month + 1}-${daysInMonth}`).format(
+      "YYYY-M-DD"
+    );
+    let firstSalary = 0;
+    let secondSalary = 0;
+    props.props.attendanceHistory?.forEach((item) => {
+      let dt = moment(item.Start).format("YYYY-M-DD");
+      if (dt >= firstHalf && dt < secondHalf) {
+        console.log("first");
+        firstSalary += props.props.dailySalary;
+      } else if (dt >= secondHalf && dt <= lastDate) {
+        console.log("second");
+        secondSalary += props.props.dailySalary;
+      }
+    });
+
+    setFirstHalf(firstSalary);
+    setSecondHalf(secondSalary);
+  }
 
   const firstDay = new Date(year, month, 1);
   const startingDay = firstDay.getDay();
@@ -184,17 +212,28 @@ export default function Calendar(props) {
             </div>
             <div>
               End Time:
-              {moment(endTime).format("hh:mm") === "11:59" ||
-              moment(endTime).format("hh:mm") === "Invalid date" ? (
+              {moment(endTime).format("HH:mm") === "23:59" &&
+              moment(endTime).date() === new Date().getDate() ? (
                 <>No Punch Records!</>
               ) : (
-                moment(endTime).format("hh:mm")
+                moment(endTime).format("HH:mm")
               )}
             </div>
           </div>
         ) : (
           <></>
         )}
+        <div>
+          {props.props.dailySalary ? (
+            <div>
+              <h4>Salary</h4>
+              <div>First Half: {firstHalf}</div>
+              <div>Second Half: {secondHalf}</div>
+            </div>
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
     </div>
   );

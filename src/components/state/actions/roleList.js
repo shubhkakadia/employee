@@ -14,9 +14,9 @@ export const fetchRoleData = () => (dispatch) => {
       console.log(response.data);
       dispatch(success(response.data.response));
     })
-    .catch(function (error) {
-      console.log(error);
-      dispatch(error(error));
+    .catch(function (err) {
+      console.log(err);
+      dispatch(error(err));
     });
 };
 

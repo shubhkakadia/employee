@@ -34,14 +34,15 @@
   justify-content: center;
   padding-top: 4%;
 }
+
 .calendar-box {
-  height: 85vh;
+  height: 87vh;
   width: 80%;
   margin: 0 auto;
   text-align: center;
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
   padding: 20px;
   transition: box-shadow 0.3s;
 }
